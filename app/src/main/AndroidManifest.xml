@@ -4,9 +4,6 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -19,23 +16,22 @@
         android:theme="@style/Theme.PeriodTracker"
         android:hardwareAccelerated="true"
         android:largeHeap="true"
-        android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
-        <activity android:name="com.arrowwould.periodtracker.Activities.SplashScreen" android:exported="true">
+        <activity android:name="com.srzone.ritu.Activities.SplashScreen" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-        <activity android:name="com.arrowwould.periodtracker.Activities.EditPeriodActivity" android:exported="false"/>
-        <activity android:name="com.arrowwould.periodtracker.Activities.DiaryNotesPreviewActivity" android:exported="false"/>
-        <activity android:name="com.arrowwould.periodtracker.Activities.NotesActivity" android:exported="false"/>
-        <activity android:name="com.arrowwould.periodtracker.Activities.InputActivity" />
+        <activity android:name="com.srzone.ritu.Activities.EditPeriodActivity" android:exported="false"/>
+        <activity android:name="com.srzone.ritu.Activities.DiaryNotesPreviewActivity" android:exported="false"/>
+        <activity android:name="com.srzone.ritu.Activities.NotesActivity" android:exported="false"/>
+        <activity android:name="com.srzone.ritu.Activities.InputActivity" />
 
-        <activity android:theme="@style/DefaultFontTheme" android:name="com.arrowwould.periodtracker.Activities.ReadBlogActivity" android:exported="false"/>
-        <activity android:name="com.arrowwould.periodtracker.Activities.MainActivity" android:exported="true"/>
+        <activity android:theme="@style/DefaultFontTheme" android:name="com.srzone.ritu.Activities.ReadBlogActivity" android:exported="false"/>
+        <activity android:name="com.srzone.ritu.Activities.MainActivity" android:exported="true"/>
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

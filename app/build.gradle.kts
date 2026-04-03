@@ -1,15 +1,16 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
-    namespace = "com.arrowwould.periodtracker"
-    compileSdk = 34
+    namespace = "com.srzone.ritu"
+    compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.arrowwould.periodtracker"
+        applicationId = "com.srzone.ritu"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
         resConfigs("en")
@@ -67,6 +68,9 @@ android {
             dataBinding = true
         }
     }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 
 }
 
@@ -87,10 +91,11 @@ dependencies {
 
 
 
-    implementation ("com.haibin:calendarview:3.6.8")
+    implementation("com.kizitonwose.calendar:view:2.5.0")
 
     implementation ("org.threeten:threetenbp:0.7.2")
     implementation ("com.airbnb.android:lottie:5.2.0")
+    implementation(libs.core.ktx)
 
 //    implementation ("com.google.android.gms:play-services-ads:21.3.0")
 }

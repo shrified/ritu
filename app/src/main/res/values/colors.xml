@@ -1,44 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Base -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="app_primary_color">#ff6aa6</color>
-    <color name="colorPrimary">#C2185B</color>
 
-    <color name="app_secondary_color">#fff3f3</color>
+    <!-- Primary green brand colors -->
+    <color name="app_primary_color">#4CAF50</color>         <!-- was pink #ff6aa6 → green accent -->
+    <color name="colorPrimary">#2E7D32</color>              <!-- was deep pink #C2185B → deep green -->
 
+    <!-- Backgrounds -->
+    <color name="app_secondary_color">#F1F8F1</color>       <!-- was #fff3f3 → soft green tint -->
+    <color name="main_bg_color">#4CAF50</color>             <!-- was pink #ff6aa6 → green accent -->
+    <color name="input_screen_bg_color">#E8F5E9</color>     <!-- was pink-white #ffebf7 → green-white -->
+    <color name="btn_bg_light">#F1F8F1</color>              <!-- was #f5f5f5 → soft green white -->
+    <color name="half_transparent_color">#b2ffffff</color>  <!-- kept — neutral, works with any theme -->
+
+    <!-- Greys — kept neutral, they work with any palette -->
     <color name="dark_grey">#eeeeee</color>
     <color name="light_grey">#c8c8c8</color>
-    <color name="btn_bg_light">#f5f5f5</color>
+
+    <!-- Alert/Error red — kept, used for warnings only -->
     <color name="app_red_color">#ea0000</color>
-    <color name="main_bg_color">#ff6aa6</color>
-    <color name="half_transparent_color">#b2ffffff</color>
-    <color name="input_screen_bg_color">#ffebf7</color>
-    <color name="next_period_bg_color">#ffeded</color>
-    <color name="next_period_front_color">#ea0000</color>
-    <color name="next_ovulation_bg_color">#fef8ee</color>
-    <color name="next_ovulation_front_color">#ea0000</color>
-    <color name="fertile_days_bg_color">#f6fbff</color>
-    <color name="fertile_days_front_color">#1487ec</color>
-    <color name="safe_days_bg_color">#ffe9f2</color>
-    <color name="safe_days_front_color">#e72971</color>
-    <color name="theme10">#ff00aa</color>
-    <color name="theme_7_bg">#ffe1f0</color>
-    <color name="theme8">#000000</color>
-    <color name="theme9">#006517</color>
-    <color name="theme1">#f5414f</color>
-    <color name="theme_1_bg">#e9e6ff</color>
-    <color name="theme2">#49a6f8</color>
-    <color name="theme_2_bg">#ffe1f0</color>
-    <color name="theme3">#81c1fa</color>
-    <color name="theme_3_bg">#e5e7ff</color>
-    <color name="theme4">#ff0470</color>
-    <color name="theme_4_bg">#ffe1f0</color>
-    <color name="theme5">#db86ff</color>
-    <color name="theme_5_bg">#ffe1f0</color>
-    <color name="theme6">#81c1fa</color>
-    <color name="theme_6_bg">#ffe1f0</color>
-    <color name="theme7">#9fd3e8</color>
-    <color name="safe_days_cal_color">#ff9292</color>
-    <color name="fertile_days_cal_color">#e2ff2a</color>
+
+    <!-- Dashboard cards -->
+    <color name="next_period_bg_color">#fce4ec</color>      <!-- soft pink, period context makes sense -->
+    <color name="next_period_front_color">#C62828</color>   <!-- deep red for period text -->
+
+    <color name="next_ovulation_bg_color">#F1F8E9</color>   <!-- was warm yellow → soft green -->
+    <color name="next_ovulation_front_color">#33691E</color><!-- was red → dark olive green -->
+
+    <color name="fertile_days_bg_color">#E8F5E9</color>     <!-- was light blue → light green -->
+    <color name="fertile_days_front_color">#2E7D32</color>  <!-- was blue #1487ec → primary green -->
+
+    <color name="safe_days_bg_color">#F9FBE7</color>        <!-- was pink → very light yellow-green -->
+    <color name="safe_days_front_color">#558B2F</color>     <!-- was hot pink → medium green -->
+
+    <!-- Calendar dot colors -->
+    <color name="safe_days_cal_color">#A5D6A7</color>       <!-- was coral pink → light green -->
+    <color name="fertile_days_cal_color">#CCFF90</color>    <!-- was yellow-green → kept similar, adjusted -->
+
+    <!-- Themes — primary color updated to green, bg kept soft -->
+    <color name="theme1">#388E3C</color>                    <!-- was red → medium green -->
+    <color name="theme_1_bg">#E8F5E9</color>               <!-- was lavender → soft green -->
+
+    <color name="theme2">#4CAF50</color>                    <!-- was blue → green accent -->
+    <color name="theme_2_bg">#F1F8F1</color>               <!-- was pink → soft green white -->
+
+    <color name="theme3">#81C784</color>                    <!-- was light blue → light green -->
+    <color name="theme_3_bg">#E8F5E9</color>               <!-- was lavender → soft green -->
+
+    <color name="theme4">#2E7D32</color>                    <!-- was hot pink → deep green -->
+    <color name="theme_4_bg">#C8E6C9</color>               <!-- was pink → green tint -->
+
+    <color name="theme5">#66BB6A</color>                    <!-- was purple → mid green -->
+    <color name="theme_5_bg">#E8F5E9</color>               <!-- was pink → soft green -->
+
+    <color name="theme6">#A5D6A7</color>                    <!-- was light blue → pale green -->
+    <color name="theme_6_bg">#F1F8F1</color>               <!-- was pink → soft green white -->
+
+    <color name="theme7">#B2DFDB</color>                    <!-- was sky blue → soft teal-green -->
+    <color name="theme_7_bg">#E0F2F1</color>               <!-- was pink → soft teal -->
+
+    <color name="theme8">#000000</color>                    <!-- black theme — kept -->
+    <color name="theme9">#1B5E20</color>                    <!-- was dark green — kept, matches palette -->
+    <color name="theme10">#00C853</color>                   <!-- was neon pink → vivid green -->
+
 </resources>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Ovulation Calculator</string>
+    <string name="app_name">Ritu</string>
     <string name="write_your_symptoms_here">Write your symptoms here</string>
     <string name="cancel">Cancel</string>
     <string name="update">Update</string>
@@ -16,8 +16,8 @@
     <string name="next_period">Next Period</string>
     <string name="next_ovulation">Next Ovulation</string>
     <string name="chances_of_pregnancy">Chances of Pregnancy</string>
-    <string name="log_your_symptoms">Log your symptoms</string>
-    <string name="where_does_your_last_period_start">Where does your last period start?</string>
+    <string name="log_your_symptoms">Note your symptoms</string>
+    <string name="where_does_your_last_period_start">When did your last period start?</string>
     <string name="back">Back</string>
     <string name="get_started">Get Started</string>
     <string name="how_long_is_your_menstrual_cycle">How long is your menstrual cycle?</string>

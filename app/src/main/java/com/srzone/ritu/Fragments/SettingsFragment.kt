@@ -30,7 +30,7 @@ class SettingsFragment : Fragment() {
         layoutInflater: LayoutInflater,
         viewGroup: ViewGroup?,
         bundle: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentSettingsBinding.inflate(layoutInflater, viewGroup, false)
         
         setData()
@@ -54,7 +54,7 @@ class SettingsFragment : Fragment() {
         setUpThemesRecycler()
         setUpTheme()
         
-        return binding?.root
+        return binding!!.root
     }
 
     private fun onRecalculateClicked() {
@@ -110,23 +110,34 @@ class SettingsFragment : Fragment() {
         val activity = activity ?: return
         val cycles = SharedPreferenceUtils.getCycles(activity).toInt()
         val date = SharedPreferenceUtils.getDate(activity)
+        val cycleLength = SharedPreferenceUtils.getCycleLength(activity)
         
-        binding?.cycleLengthTv?.text = "$cycles ${getString(R.string.days)}"
-        
-        binding?.periodLengthTv?.text = 
-            "${SharedPreferenceUtils.getCycleLength(activity)} ${getString(R.string.days)}"
+        // Correctly accessing included layouts
+        binding?.menstrualCycleRow?.apply {
+            rowIcon.setImageResource(R.drawable.ic_menstrual_cycle)
+            rowLabel.text = getString(R.string.menstrual_cycle)
+            rowValue.text = "$cycles ${getString(R.string.days)}"
+        }
+
+        binding?.periodLengthRow?.apply {
+            rowIcon.setImageResource(R.drawable.ic_period_length)
+            rowLabel.text = getString(R.string.period_length)
+            rowValue.text = "$cycleLength ${getString(R.string.days)}"
+        }
         
         val ovulation = OvulationCalculations.getOvulation(date, cycles)
         val nextPeriod = OvulationCalculations.getNextPeriod(date, cycles)
+        val lutealDays = OvulationCalculations.daysBetweenTwoDates(ovulation, nextPeriod).toInt()
         
-        val daysBetweenTwoDates = OvulationCalculations.daysBetweenTwoDates(ovulation, nextPeriod).toInt()
-        
-        binding?.lutealPhaseTv?.text = "$daysBetweenTwoDates ${getString(R.string.days)}"
+        binding?.lutealPhaseRow?.apply {
+            rowIcon.setImageResource(R.drawable.ic_luteal_phase)
+            rowLabel.text = getString(R.string.luteal_phase)
+            rowValue.text = "$lutealDays ${getString(R.string.days)}"
+        }
     }
 
     private fun setUpThemesRecycler() {
         val activity = activity ?: return
-        
         val themeList = ArrayList(MyThemeHandler.CUSTOM_THEMES.toList())
         
         adapter = object : CustomThemesSelectorAdapter(
@@ -139,12 +150,9 @@ class SettingsFragment : Fragment() {
                     this@SettingsFragment.adapter?.selectedTheme,
                     activity
                 )
-                this@SettingsFragment.startActivity(
-                    Intent(
-                        this@SettingsFragment.requireContext(),
-                        MainActivity::class.java
-                    )
-                )
+                val intent = Intent(this@SettingsFragment.requireContext(), MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                this@SettingsFragment.startActivity(intent)
                 activity.finishAffinity()
             }
         }

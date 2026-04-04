@@ -33,15 +33,10 @@ class MyThemeHandler {
     }
 
     companion object {
-        val CUSTOM_THEMES: Array<MyCustomTheme?> = arrayOf<MyCustomTheme?>(
-            MyCustomTheme(
-                R.drawable.theme10_bg,
-                R.color.theme10,
-                R.color.theme_7_bg,
-                false
-            ),
+        val CUSTOM_THEMES: Array<MyCustomTheme?> = arrayOf(
+            MyCustomTheme(R.drawable.theme9_bg, R.color.theme9, R.color.theme_7_bg, false), // Green ← index 0, default
+            MyCustomTheme(R.drawable.theme10_bg, R.color.theme10, R.color.theme_7_bg, false),
             MyCustomTheme(R.drawable.theme8_bg, R.color.theme8, R.color.theme_7_bg, false),
-            MyCustomTheme(R.drawable.theme9_bg, R.color.theme9, R.color.theme_7_bg, false),
             MyCustomTheme(R.drawable.theme1_bg, R.color.theme1, R.color.theme_1_bg, true),
             MyCustomTheme(R.drawable.theme2_bg, R.color.theme2, R.color.theme_2_bg, true),
             MyCustomTheme(R.drawable.theme3_bg, R.color.theme3, R.color.theme_3_bg, false),

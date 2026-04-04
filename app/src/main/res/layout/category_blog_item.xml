@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp">
+    android:orientation="vertical"
+    android:paddingVertical="12dp">
 
     <TextView
-        android:textSize="22sp"
-        android:textColor="@color/black"
         android:id="@+id/categoryNameTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Category"
-        android:fontFamily="@font/app_font_bold" />
+        android:layout_marginStart="20dp"
+        android:fontFamily="@font/app_font_bold"
+        android:textColor="@color/text_primary"
+        android:textSize="20sp"
+        tools:text="Reproductive Health" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/categoryBlogsRecycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="12dp"
+        android:clipToPadding="false"
+        android:paddingHorizontal="16dp" />
+
 </LinearLayout>

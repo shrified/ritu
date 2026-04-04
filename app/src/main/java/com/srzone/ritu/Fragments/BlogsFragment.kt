@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import com.srzone.ritu.Adapters.FeaturedBlogAdapter
 import com.srzone.ritu.Adapters.GeneralBlogAdapter
 import com.srzone.ritu.Databases.LikesHandler
@@ -26,7 +27,7 @@ import java.util.Locale
 
 class BlogsFragment : Fragment() {
     private var binding: FragmentBlogsBinding? = null
-    private var themeColor = 0
+    private var themeColorRes = R.color.app_primary_color
 
     override fun onCreateView(
         layoutInflater: LayoutInflater,
@@ -34,8 +35,8 @@ class BlogsFragment : Fragment() {
         bundle: Bundle?
     ): View? {
         binding = FragmentBlogsBinding.inflate(layoutInflater, viewGroup, false)
-        showDiscoverData()
         setUpTheme()
+        showDiscoverData()
 
         binding?.apply {
             discoverBtn.setOnClickListener {
@@ -78,27 +79,29 @@ class BlogsFragment : Fragment() {
         showRecentData()
     }
 
-    private fun activateBtn(linearLayout: LinearLayout) {
+    private fun activateBtn(cardView: MaterialCardView) {
+        val linearLayout = cardView.getChildAt(0) as? LinearLayout ?: return
         val icon = linearLayout.getChildAt(0) as? ImageView
         val text = linearLayout.getChildAt(1) as? TextView
         
+        cardView.setCardBackgroundColor(ContextCompat.getColor(requireContext(), themeColorRes))
         icon?.let { ImageUtils.setTint(it, R.color.white) }
         text?.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-        Utils.setTint(linearLayout, themeColor)
     }
 
-    private fun deActivateBtn(linearLayout: LinearLayout) {
+    private fun deActivateBtn(cardView: MaterialCardView) {
+        val linearLayout = cardView.getChildAt(0) as? LinearLayout ?: return
         val icon = linearLayout.getChildAt(0) as? ImageView
         val text = linearLayout.getChildAt(1) as? TextView
         
-        icon?.let { ImageUtils.setTint(it, themeColor) }
-        text?.setTextColor(ContextCompat.getColor(requireContext(), themeColor))
-        Utils.setTint(linearLayout, R.color.white)
+        cardView.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
+        icon?.let { ImageUtils.setTint(it, themeColorRes) } // ✅ Pass Res ID, not color value
+        text?.setTextColor(ContextCompat.getColor(requireContext(), themeColorRes))
     }
 
     private fun setUpTheme() {
         val theme = MyThemeHandler().getAppTheme(requireActivity())
-        themeColor = theme?.themeColor ?: R.color.theme1
+        themeColorRes = theme?.themeColor ?: R.color.app_primary_color
         
         binding?.let {
             activateBtn(it.discoverBtn)

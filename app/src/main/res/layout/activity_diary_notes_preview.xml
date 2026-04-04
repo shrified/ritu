@@ -1,35 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-    </data>
-
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/app_secondary_color">
+        android:background="@color/surface_background">
 
-        <RelativeLayout
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/banner1">
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true">
+                android:layout_height="?attr/actionBarSize">
 
                 <ImageView
                     android:id="@+id/backBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|center_vertical"
-                    android:layout_marginStart="10dp"
-                    android:src="@drawable/ic_prev"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_back"
                     app:tint="@color/app_primary_color" />
 
                 <TextView
@@ -37,127 +34,147 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Date"
-                    android:textColor="@color/app_primary_color"
-                    android:textSize="20sp" />
-
-                <ImageView
-                    android:id="@+id/editIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end|center_vertical"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/ic_edit"
-                    app:tint="@color/app_primary_color" />
-
-                <ImageView
-                    android:id="@+id/deleteIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end|center_vertical"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/ic_delete"
-                    app:tint="@color/app_primary_color" />
-            </androidx.appcompat.widget.Toolbar>
-
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/toolbar"
-                android:layout_centerHorizontal="true">
+                    android:fontFamily="@font/app_font_bold"
+                    android:textColor="@color/text_primary"
+                    android:textSize="18sp"
+                    tools:text="15 Oct 2023" />
 
                 <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingEnd="8dp">
+
+                    <ImageView
+                        android:id="@+id/editIcon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_edit"
+                        app:tint="@color/app_primary_color" />
+
+                    <ImageView
+                        android:id="@+id/deleteIcon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_delete"
+                        app:tint="@color/color_error" />
+                </LinearLayout>
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toTopOf="@+id/banner1"
+            app:layout_constraintTop_toBottomOf="@id/appBar">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/noteCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="2dp"
+                    app:strokeWidth="0dp">
 
                     <TextView
                         android:id="@+id/notesDescTv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:paddingLeft="5dp"
-                        android:paddingTop="10dp"
-                        android:paddingRight="5dp"
-                        android:paddingBottom="10dp"
-                        android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:fontFamily="@font/app_font"
+                        android:lineSpacingExtra="4sp"
+                        android:padding="20dp"
+                        android:textColor="@color/text_primary"
+                        android:textSize="16sp"
+                        tools:text="Today I felt some cramps and light fatigue. Started tracking water intake as well." />
 
-                    <LinearLayout
-                        android:id="@+id/inputArea"
+                </com.google.android.material.card.MaterialCardView>
+
+                <LinearLayout
+                    android:id="@+id/inputArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:visibility="gone">
+                        android:hint="@string/write_your_symptoms_here"
+                        app:boxCornerRadiusBottomEnd="16dp"
+                        app:boxCornerRadiusBottomStart="16dp"
+                        app:boxCornerRadiusTopEnd="16dp"
+                        app:boxCornerRadiusTopStart="16dp">
 
-                        <EditText
+                        <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/dairyNoteInp"
                             android:layout_width="match_parent"
-                            android:layout_height="150dp"
-                            android:background="@drawable/rounded_shape_bg"
-                            android:backgroundTint="@color/white"
-                            android:gravity="start|top"
-                            android:hint="@string/write_your_symptoms_here"
-                            android:inputType="textMultiLine"
-                            android:padding="10dp"
-                            android:textColor="@color/app_primary_color"
-                            android:textSize="18sp" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:fontFamily="@font/app_font"
+                            android:gravity="top"
+                            android:minLines="6"
+                            android:textColor="@color/text_primary" />
 
-                            <androidx.appcompat.widget.AppCompatButton
-                                android:id="@+id/cancelBtn"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginEnd="5dp"
-                                android:layout_marginBottom="10dp"
-                                android:layout_weight="1"
-                                android:background="@drawable/rounded_shape_bg"
-                                android:backgroundTint="@color/white"
-                                android:text="@string/cancel"
-                                android:textAllCaps="false"
-                                android:textColor="@color/app_primary_color" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                            <Button
-                                android:id="@+id/saveBtn"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="5dp"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginBottom="10dp"
-                                android:layout_weight="1"
-                                android:background="@drawable/rounded_shape_bg"
-                                android:backgroundTint="@color/app_primary_color"
-                                android:text="@string/update"
-                                android:textAllCaps="false"
-                                android:textColor="@color/white" />
-                        </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/cancelBtn"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="0dp"
+                            android:layout_height="56dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/app_font"
+                            android:text="@string/cancel"
+                            android:textColor="@color/text_secondary" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/saveBtn"
+                            android:layout_width="0dp"
+                            android:layout_height="56dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/app_font"
+                            android:text="@string/update"
+                            app:cornerRadius="12dp" />
                     </LinearLayout>
                 </LinearLayout>
-            </ScrollView>
-        </RelativeLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
-
-        <RelativeLayout
+        <FrameLayout
             android:id="@+id/banner1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:gravity="center">
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <RelativeLayout
                 android:id="@+id/banner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center"
-                android:gravity="center" />
-        </RelativeLayout>
+                android:minHeight="50dp" />
+        </FrameLayout>
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

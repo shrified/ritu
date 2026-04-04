@@ -2,309 +2,231 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-
-    </data>
-
-    <ScrollView
-        android:paddingTop="@dimen/top_padding"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/surface_background">
 
-        <RelativeLayout
+        <TextView
+            android:id="@+id/headingTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/app_font_bold"
+            android:text="@string/settings"
+            android:textColor="@color/text_primary"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp"
+            android:clipToPadding="false"
+            android:paddingBottom="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/headingTv">
 
             <LinearLayout
-                android:orientation="vertical"
-                android:padding="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true">
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="2dp"
+                    app:strokeWidth="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <include
+                            android:id="@+id/periodLengthRow"
+                            layout="@layout/settings_row_item" />
+
+                        <include layout="@layout/settings_divider" />
+
+                        <include
+                            android:id="@+id/menstrualCycleRow"
+                            layout="@layout/settings_row_item" />
+
+                        <include layout="@layout/settings_divider" />
+
+                        <include
+                            android:id="@+id/lutealPhaseRow"
+                            layout="@layout/settings_row_item" />
+
+                        <include layout="@layout/settings_divider" />
+
+                        <LinearLayout
+                            android:id="@+id/recalculateBtn"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:background="?attr/selectableItemBackground"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingHorizontal="16dp">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_recalculate"
+                                app:tint="@color/app_primary_color"
+                                android:contentDescription="@null" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/app_font"
+                                android:text="@string/recalculate"
+                                android:textColor="@color/app_primary_color"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
                 <TextView
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:id="@+id/headingTv"
-                    android:padding="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="32dp"
+                    android:fontFamily="@font/app_font_bold"
+                    android:text="@string/themes"
+                    android:textColor="@color/text_primary"
+                    android:textSize="18sp" />
+
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/settings"
-                    android:fontFamily="@font/app_font_bold" />
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:background="@drawable/rounded_shape_bg"
-                    android:padding="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/half_transparent_color">
-
-                    <LinearLayout
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp">
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_period_length" />
-
-                        <TextView
-                            android:textSize="@dimen/settings_text_size"
-                            android:textColor="@color/app_primary_color"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:text="@string/period_length"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:textSize="@dimen/settings_text_size"
-                            android:textColor="@color/app_primary_color"
-                            android:id="@+id/periodLengthTv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="5 days" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp">
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_menstrual_cycle" />
-
-                        <TextView
-                            android:textSize="@dimen/settings_text_size"
-                            android:textColor="@color/app_primary_color"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:text="@string/menstrual_cycle"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:textSize="@dimen/settings_text_size"
-                            android:textColor="@color/app_primary_color"
-                            android:id="@+id/cycleLengthTv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="28 days" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp">
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_luteal_phase" />
-
-                        <TextView
-                            android:textSize="@dimen/settings_text_size"
-                            android:textColor="@color/app_primary_color"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:text="@string/luteal_phase"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:textSize="@dimen/settings_text_size"
-                            android:textColor="@color/app_primary_color"
-                            android:id="@+id/lutealPhaseTv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="5 days" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:id="@+id/recalculateBtn"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp">
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_recalculate"
-                            app:tint="@color/app_primary_color" />
-
-                        <TextView
-                            android:textSize="@dimen/settings_text_size"
-                            android:textColor="@color/app_primary_color"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:text="@string/recalculate"
-                            android:layout_weight="1" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:background="@drawable/rounded_shape_bg"
-                    android:padding="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:backgroundTint="@color/half_transparent_color">
-
-                    <LinearLayout
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:id="@+id/themesSetting"
-                        android:padding="10dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_themes"
-                            app:tint="@color/app_primary_color" />
-
-                        <TextView
-                            android:textStyle="bold"
-                            android:textColor="@color/app_primary_color"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:text="@string/themes"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/app_font_bold" />
-
-                        <ImageView
-                            android:visibility="gone"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_next"
-                            app:tint="@color/black" />
-                    </LinearLayout>
+                    android:layout_marginTop="12dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="2dp"
+                    app:strokeWidth="0dp">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/themesRecycler"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp" />
-                </LinearLayout>
+                        android:clipToPadding="false"
+                        android:padding="16dp" />
 
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:background="@drawable/rounded_shape_bg"
-                    android:padding="10dp"
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:backgroundTint="@color/half_transparent_color">
+                    android:layout_marginTop="24dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="2dp"
+                    app:strokeWidth="0dp">
 
                     <LinearLayout
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:id="@+id/rateUsBtn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp">
+                        android:orientation="vertical"
+                        android:padding="8dp">
 
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_rate_us"
-                            app:tint="@color/app_primary_color" />
+                        <LinearLayout
+                            android:id="@+id/rateUsBtn"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:background="?attr/selectableItemBackground"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingHorizontal="16dp">
 
-                        <TextView
-                            android:textSize="@dimen/settings_text_size"
-                            android:textColor="@color/app_primary_color"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:text="@string/rate_us"
-                            android:layout_weight="1" />
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_rate_us"
+                                app:tint="@color/app_primary_color"
+                                android:contentDescription="@null" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/app_font"
+                                android:text="@string/rate_us"
+                                android:textColor="@color/text_primary"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+
+                        <include layout="@layout/settings_divider" />
+
+                        <LinearLayout
+                            android:id="@+id/shareUsBtn"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:background="?attr/selectableItemBackground"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingHorizontal="16dp">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_share"
+                                app:tint="@color/app_primary_color"
+                                android:contentDescription="@null" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/app_font"
+                                android:text="@string/share_us"
+                                android:textColor="@color/text_primary"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+
+                        <include layout="@layout/settings_divider" />
+
+                        <LinearLayout
+                            android:id="@+id/privacyPolicyBtn"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:background="?attr/selectableItemBackground"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingHorizontal="16dp">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_privacy_policy"
+                                app:tint="@color/app_primary_color"
+                                android:contentDescription="@null" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/app_font"
+                                android:text="@string/privacy_policy"
+                                android:textColor="@color/text_primary"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+
                     </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-                    <LinearLayout
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:id="@+id/shareUsBtn"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp">
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_share"
-                            app:tint="@color/app_primary_color" />
-
-                        <TextView
-                            android:textSize="@dimen/settings_text_size"
-                            android:textColor="@color/app_primary_color"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:text="@string/share_us"
-                            android:layout_weight="1" />
-                    </LinearLayout>
-
-
-
-                    <LinearLayout
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:id="@+id/privacyPolicyBtn"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp">
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_privacy_policy"
-                            app:tint="@color/app_primary_color" />
-
-                        <TextView
-                            android:textSize="@dimen/settings_text_size"
-                            android:textColor="@color/app_primary_color"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:text="@string/privacy_policy"
-                            android:layout_weight="1" />
-                    </LinearLayout>
-                </LinearLayout>
             </LinearLayout>
-        </RelativeLayout>
-    </ScrollView>
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

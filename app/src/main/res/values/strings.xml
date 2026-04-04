@@ -17,6 +17,7 @@
     <string name="next_ovulation">Next Ovulation</string>
     <string name="chances_of_pregnancy">Chances of Pregnancy</string>
     <string name="log_your_symptoms">Note your symptoms</string>
+    <string name="notes">Notes</string>
     <string name="where_does_your_last_period_start">When did your last period start?</string>
     <string name="back">Back</string>
     <string name="get_started">Get Started</string>
@@ -63,8 +64,8 @@
     <string name="sexual_health">Sexual Health</string>
     <string name="hormonal_health">Hormonal Health</string>
     <string name="menstrual_pain">Menstrual Pain</string>
-    <string name="high_bleeding_and_hormonal_imbalance">High Bleeding and Hormonal Imbalance</string>
-    <string name="high_bleeding">High Bleeding</string>
+    <string name="high_bleeding_and_hormonal_imbalance">Heavy Bleeding and Hormonal Imbalance</string>
+    <string name="high_bleeding">Heavy Bleeding</string>
     <string name="stress_and_menstrual_cycle">Stress and Menstrual Cycle</string>
     <string name="pain_in_fertility_test">Pain in Fertility Test</string>
     <string name="juice_during_period">Jiuce During Period</string>
@@ -75,5 +76,4 @@
     <string name="fertile_days">Fertile days</string>
     <string name="safe_days">Safe days</string>
     <string name="days">days</string>
-
 </resources>

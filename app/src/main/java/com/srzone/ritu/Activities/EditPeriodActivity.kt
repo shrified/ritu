@@ -4,7 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.updateLayoutParams
 import com.srzone.ritu.Databases.Entities.DateDetails
 import com.srzone.ritu.Databases.OvulationDetailsHandler
 import com.srzone.ritu.Databases.Params
@@ -23,12 +28,29 @@ class EditPeriodActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        enableEdgeToEdge()
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
+
         binding = ActivityEditPeriodBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val rootView = findViewById<View>(R.id.rootLayout)
+        val statusBarBackground = findViewById<View>(R.id.statusBarBackground)
+
+        ViewCompat.setOnApplyWindowInsetsListener(rootView) { rootView, insets ->
+            val systemBars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
+            )
+            rootView.setPadding(systemBars.left, 0, systemBars.right, systemBars.bottom)
+            statusBarBackground.updateLayoutParams {
+                height = systemBars.top
+            }
+            insets
+        }
+
         handler = OvulationDetailsHandler(this)
 
-        // 1. Initialize CalendarView with existing saved date
         val savedDateStr = SharedPreferenceUtils.getDate(this)
         if (savedDateStr.isNotEmpty()) {
             try {
@@ -49,7 +71,6 @@ class EditPeriodActivity : AppCompatActivity() {
         }
 
         binding.cancelBtn.setOnClickListener { finish() }
-
         binding.saveBtn.setOnClickListener { saveData() }
     }
 
@@ -60,91 +81,67 @@ class EditPeriodActivity : AppCompatActivity() {
 
         val newDateStr = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(selectedCalendar.time)
         
-        // Get existing settings
-        val cycles = SharedPreferenceUtils.getCycles(this).ifEmpty { "28" }.toInt()
-        val cycleLength = SharedPreferenceUtils.getCycleLength(this).ifEmpty { "5" }.toInt()
+        // Use consistent variable names
+        val cycleLength = SharedPreferenceUtils.getCycleLength(this).toInt()
+        val periodLength = SharedPreferenceUtils.getPeriodLength(this).toInt()
 
-        // 2. Update SharedPreferences - This is the "base" for all logic
         SharedPreferenceUtils.saveData(
-            cycles.toString(),
-            newDateStr,
             cycleLength.toString(),
+            newDateStr,
+            periodLength.toString(),
             this
         )
 
-        // 3. Clear old database entries to avoid duplicate indicators on calendar/home
         deleteDatabase(Params.DB_NAME_DETAILS)
-        
-        // 4. Re-initialize the handler since the database was just deleted
         handler = OvulationDetailsHandler(this)
 
-        // 5. Repopulate database with new cycles (matching onboarding logic)
-        saveCyclesToDatabase(newDateStr, cycles, cycleLength)
+        saveCyclesToDatabase(newDateStr, cycleLength, periodLength)
 
         Toast.makeText(this, getString(R.string.saved_successfully), Toast.LENGTH_SHORT).show()
         
-        // 6. Return to MainActivity and clear top to force refresh of all fragments
         val intent = Intent(this, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
         finishAffinity()
     }
 
-    private fun saveCyclesToDatabase(dateStr: String, cycles: Int, periodLength: Int) {
-        val ovulation = OvulationCalculations.getOvulation(dateStr, cycles)
-        val nextPeriod = OvulationCalculations.getNextPeriod(dateStr, cycles)
-        val fertileWindow = OvulationCalculations.getFertileWindow(dateStr, cycles)
-        val safeDays = OvulationCalculations.getSafeDays(dateStr, cycles, periodLength)
-
-        // Home Screen Logic (Pre-calculating multiple cycles forward and backward)
+    private fun saveCyclesToDatabase(dateStr: String, cycleLength: Int, periodLength: Int) {
+        // Correct offsets: i * cycleLength
         for (i in 0..11) {
-            val offset = cycles * i
+            val offset = cycleLength * i
             
-            // Forward cycles
-            handler.addOvulationDetail(
-                DateDetails(
-                    OvulationCalculations.addDays(fertileWindow, offset),
-                    OvulationCalculations.addDays(safeDays, offset),
-                    OvulationCalculations.addDays(nextPeriod, offset),
-                    OvulationCalculations.addDays(ovulation, offset)
-                ), Params.OVULATION_DETAILS_TABLE_HOME
-            )
+            // Re-calculate base for each cycle to ensure correct relative windows
+            val cycleDate = OvulationCalculations.addDays(dateStr, offset)
+            addCycleToDb(cycleDate, cycleLength, periodLength, Params.OVULATION_DETAILS_TABLE_HOME)
             
-            // Backward cycles
-            handler.addOvulationDetail(
-                DateDetails(
-                    OvulationCalculations.minusDays(fertileWindow, offset),
-                    OvulationCalculations.minusDays(safeDays, offset),
-                    OvulationCalculations.minusDays(nextPeriod, offset),
-                    OvulationCalculations.minusDays(ovulation, offset)
-                ), Params.OVULATION_DETAILS_TABLE_HOME
-            )
+            if (i > 0) {
+                val pastCycleDate = OvulationCalculations.minusDays(dateStr, offset)
+                addCycleToDb(pastCycleDate, cycleLength, periodLength, Params.OVULATION_DETAILS_TABLE_HOME)
+            }
         }
 
-        // Calendar View Logic
         for (i in 0..5) {
-            val offset = cycles * i
-            handler.addOvulationDetail(
-                DateDetails(
-                    OvulationCalculations.addDays(fertileWindow, offset),
-                    OvulationCalculations.addDays(safeDays, offset),
-                    OvulationCalculations.addDays(nextPeriod, offset),
-                    OvulationCalculations.addDays(ovulation, offset)
-                ), Params.OVULATION_DETAILS_TABLE_CALENDAR
-            )
+            val offset = cycleLength * i
+            val cycleDate = OvulationCalculations.addDays(dateStr, offset)
+            addCycleToDb(cycleDate, cycleLength, periodLength, Params.OVULATION_DETAILS_TABLE_CALENDAR)
         }
         
-        // Small backward window for calendar
-        for (i in 0..1) {
-            val offset = cycles * i
-            handler.addOvulationDetail(
-                DateDetails(
-                    OvulationCalculations.minusDays(fertileWindow, offset),
-                    OvulationCalculations.minusDays(safeDays, offset),
-                    OvulationCalculations.minusDays(nextPeriod, offset),
-                    OvulationCalculations.minusDays(ovulation, offset)
-                ), Params.OVULATION_DETAILS_TABLE_CALENDAR
-            )
+        for (i in 1..2) {
+            val offset = cycleLength * i
+            val pastCycleDate = OvulationCalculations.minusDays(dateStr, offset)
+            addCycleToDb(pastCycleDate, cycleLength, periodLength, Params.OVULATION_DETAILS_TABLE_CALENDAR)
         }
+    }
+
+    private fun addCycleToDb(date: String, cycleLength: Int, periodLength: Int, table: String) {
+        val ovulation = OvulationCalculations.getOvulation(date, cycleLength)
+        val nextPeriod = OvulationCalculations.getNextPeriod(date, cycleLength)
+        val fertileWindow = OvulationCalculations.getFertileWindow(date, cycleLength)
+        val safeDays = OvulationCalculations.getSafeDays(date, cycleLength, periodLength)
+
+        handler.addOvulationDetail(
+            DateDetails(fertileWindow, safeDays, nextPeriod, ovulation),
+            table
+        )
     }
 }

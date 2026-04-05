@@ -11,72 +11,74 @@ import com.srzone.ritu.R
 import com.srzone.ritu.databinding.FragmentPeriodInputBinding
 
 class PeriodInputFragment : Fragment() {
-    var binding: FragmentPeriodInputBinding? = null
+
+    private var binding: FragmentPeriodInputBinding? = null
+
+    companion object {
+        const val MIN_PERIOD_LENGTH = 3
+        const val MAX_PERIOD_LENGTH = 9
+        const val DEFAULT_PERIOD_LENGTH = 5
+    }
 
     override fun onCreateView(
-        layoutInflater: LayoutInflater,
-        viewGroup: ViewGroup?,
-        bundle: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
-        val inflate = FragmentPeriodInputBinding.inflate(layoutInflater)
-        this.binding = inflate
-        inflate.nextSessionBtn.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view: View?) {
-                this@PeriodInputFragment.m146x41c2179c(view)
-            }
-        })
-        this.binding!!.backSessionBtn.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view: View?) {
-                this@PeriodInputFragment.m147x9acd631d(view)
-            }
-        })
-        this.binding!!.nextBtn.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view: View?) {
-                this@PeriodInputFragment.m148xf3d8ae9e(view)
-            }
-        })
-        this.binding!!.prevBtn.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view: View?) {
-                this@PeriodInputFragment.m149x4ce3fa1f(view)
-            }
-        })
-        return this.binding!!.getRoot()
+        binding = FragmentPeriodInputBinding.inflate(inflater, container, false)
+
+        // ✅ Set default so toInt() never runs on empty string
+        binding!!.cycleLengthInp.setText(DEFAULT_PERIOD_LENGTH.toString())
+
+        binding!!.nextSessionBtn.setOnClickListener { onNext() }
+        binding!!.backSessionBtn.setOnClickListener { onBack() }
+        binding!!.nextBtn.setOnClickListener { onIncrement() }
+        binding!!.prevBtn.setOnClickListener { onDecrement() }
+
+        return binding!!.root
     }
 
-
-    fun m146x41c2179c(view: View?) {
-        val inputActivity = requireActivity() as InputActivity
-        inputActivity.periodLength = this.binding!!.cycleLengthInp.getText().toString().toInt()
-        (inputActivity.findViewById<View?>(R.id.viewPager) as ViewPager2).setCurrentItem(2, true)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null // ✅ Prevent memory leak
     }
 
-
-    fun m147x9acd631d(view: View?) {
-        (requireActivity().findViewById<View?>(R.id.viewPager) as ViewPager2).setCurrentItem(
-            0,
-            true
-        )
+    private fun getCurrentValue(): Int {
+        // ✅ Safe parse — never crashes on empty or non-numeric input
+        return binding?.cycleLengthInp?.text?.toString()?.toIntOrNull() ?: DEFAULT_PERIOD_LENGTH
     }
 
+    private fun onNext() {
+        val activity = activity as? InputActivity ?: return // ✅ Safe cast
 
-    fun m148xf3d8ae9e(view: View?) {
-        if (this.binding!!.cycleLengthInp.getText().toString().toInt() < 9) {
-            this.binding!!.cycleLengthInp.setText(
-                (this.binding!!.cycleLengthInp.getText().toString().toInt() + 1).toString()
-            )
-        } else {
-            this.binding!!.cycleLengthInp.setText(3.toString())
+        val periodLength = getCurrentValue()
+
+        if (periodLength < MIN_PERIOD_LENGTH || periodLength > MAX_PERIOD_LENGTH) {
+            binding?.cycleLengthInp?.error = "Please enter a value between $MIN_PERIOD_LENGTH and $MAX_PERIOD_LENGTH"
+            return
         }
+
+        activity.periodLength = periodLength
+        activity.findViewById<ViewPager2>(R.id.viewPager)?.setCurrentItem(2, true)
     }
 
+    private fun onBack() {
+        // ✅ Safe cast + null safety on findViewById
+        val activity = activity ?: return
+        activity.findViewById<ViewPager2>(R.id.viewPager)?.setCurrentItem(0, true)
+    }
 
-    fun m149x4ce3fa1f(view: View?) {
-        if (this.binding!!.cycleLengthInp.getText().toString().toInt() > 3) {
-            this.binding!!.cycleLengthInp.setText(
-                (this.binding!!.cycleLengthInp.getText().toString().toInt() - 1).toString()
-            )
-        } else {
-            this.binding!!.cycleLengthInp.setText(9.toString())
-        }
+    private fun onIncrement() {
+        val current = getCurrentValue()
+        // ✅ Fixed wrap: at MAX wrap to MIN (was wrapping to 3 which is correct but inconsistent naming)
+        val newValue = if (current < MAX_PERIOD_LENGTH) current + 1 else MIN_PERIOD_LENGTH
+        binding?.cycleLengthInp?.setText(newValue.toString())
+    }
+
+    private fun onDecrement() {
+        val current = getCurrentValue()
+        // ✅ Fixed wrap: at MIN wrap to MAX (was wrapping to 9 which is correct but inconsistent naming)
+        val newValue = if (current > MIN_PERIOD_LENGTH) current - 1 else MAX_PERIOD_LENGTH
+        binding?.cycleLengthInp?.setText(newValue.toString())
     }
 }

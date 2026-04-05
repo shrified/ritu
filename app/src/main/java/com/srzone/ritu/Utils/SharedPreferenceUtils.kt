@@ -3,31 +3,38 @@ package com.srzone.ritu.Utils
 import android.app.Activity
 
 object SharedPreferenceUtils {
-    private const val KEY_CYCLE_DAYS = "O_cycles"
-    private const val KEY_CYCLE_Length = "O_length"
-    private const val KEY_DATE = "O_date"
+    private const val KEY_CYCLE_LENGTH = "O_cycles"   // e.g. 28
+    private const val KEY_PERIOD_LENGTH = "O_length"  // e.g. 5
+    private const val KEY_DATE = "O_date"             // last period start date
     private const val OVULATION_PREFERENCE_FILE_NAME = "OvulationDetails"
 
-    fun saveData(str: String?, str2: String?, str3: String?, activity: Activity) {
-        val edit = activity.getSharedPreferences(OVULATION_PREFERENCE_FILE_NAME, 0).edit()
-        edit.putString(KEY_DATE, str2)
-        edit.putString(KEY_CYCLE_DAYS, str)
-        edit.putString(KEY_CYCLE_Length, str3)
-        edit.apply()
+    fun saveData(cycleLength: String?, date: String?, periodLength: String?, activity: Activity) {
+        activity.getSharedPreferences(OVULATION_PREFERENCE_FILE_NAME, 0).edit().apply {
+            putString(KEY_DATE, date)
+            putString(KEY_CYCLE_LENGTH, cycleLength)
+            putString(KEY_PERIOD_LENGTH, periodLength)
+            apply()
+        }
     }
 
-    fun getCycles(activity: Activity): String {
-        return activity.getSharedPreferences(OVULATION_PREFERENCE_FILE_NAME, 0)
-            .getString(SharedPreferenceUtils.KEY_CYCLE_DAYS, "")!!
-    }
+    /**
+     * Returns the length of the menstrual cycle (e.g., 28 days).
+     */
+    fun getCycleLength(activity: Activity): String =
+        activity.getSharedPreferences(OVULATION_PREFERENCE_FILE_NAME, 0)
+            .getString(KEY_CYCLE_LENGTH, "28")!!
 
-    fun getDate(activity: Activity): String {
-        return activity.getSharedPreferences(OVULATION_PREFERENCE_FILE_NAME, 0)
-            .getString(SharedPreferenceUtils.KEY_DATE, "")!!
-    }
+    /**
+     * Returns how many days the period lasts (e.g., 5 days).
+     */
+    fun getPeriodLength(activity: Activity): String =
+        activity.getSharedPreferences(OVULATION_PREFERENCE_FILE_NAME, 0)
+            .getString(KEY_PERIOD_LENGTH, "5")!!
 
-    fun getCycleLength(activity: Activity): String {
-        return activity.getSharedPreferences(OVULATION_PREFERENCE_FILE_NAME, 0)
-            .getString(SharedPreferenceUtils.KEY_CYCLE_Length, "")!!
-    }
+    fun getDate(activity: Activity): String =
+        activity.getSharedPreferences(OVULATION_PREFERENCE_FILE_NAME, 0)
+            .getString(KEY_DATE, "")!!
+
+    // Keep for backward compatibility if needed, but prefer getCycleLength
+    fun getCycles(activity: Activity): String = getCycleLength(activity)
 }

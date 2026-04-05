@@ -27,40 +27,67 @@ class SettingsFragment : Fragment() {
     private val handler = MyThemeHandler()
 
     override fun onCreateView(
-        layoutInflater: LayoutInflater,
-        viewGroup: ViewGroup?,
-        bundle: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSettingsBinding.inflate(layoutInflater, viewGroup, false)
-        
-        setData()
-        
-        binding?.recalculateBtn?.setOnClickListener {
-            onRecalculateClicked()
-        }
-        
-        binding?.shareUsBtn?.setOnClickListener {
-            onShareUsClicked()
-        }
-        
-        binding?.rateUsBtn?.setOnClickListener {
-            onRateUsClicked()
-        }
-        
-        binding?.privacyPolicyBtn?.setOnClickListener {
-            onPrivacyPolicyClicked()
-        }
-        
+        binding = FragmentSettingsBinding.inflate(inflater, container, false)
+
+        binding?.recalculateBtn?.setOnClickListener { onRecalculateClicked() }
+        binding?.shareUsBtn?.setOnClickListener { onShareUsClicked() }
+        binding?.rateUsBtn?.setOnClickListener { onRateUsClicked() }
+        binding?.privacyPolicyBtn?.setOnClickListener { onPrivacyPolicyClicked() }
+
         setUpThemesRecycler()
         setUpTheme()
-        
+
         return binding!!.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        // ✅ Refresh rows every time user comes back to this screen
+        setData()
+    }
+
+    private fun setData() {
+        val activity = activity ?: return
+
+        val cycleLength = SharedPreferenceUtils.getCycleLength(activity)
+        val periodLength = SharedPreferenceUtils.getPeriodLength(activity)
+        val date = SharedPreferenceUtils.getDate(activity)
+        val cycles = SharedPreferenceUtils.getCycles(activity).toIntOrNull() ?: 28
+
+        // ✅ Menstrual cycle = how many days in a cycle (e.g. 28)
+        binding?.menstrualCycleRow?.apply {
+            rowIcon.setImageResource(R.drawable.ic_menstrual_cycle)
+            rowLabel.text = getString(R.string.menstrual_cycle)
+            rowValue.text = "$cycleLength ${getString(R.string.days)}"
+        }
+
+        // ✅ Period length = how many days period lasts (e.g. 5)
+        binding?.periodLengthRow?.apply {
+            rowIcon.setImageResource(R.drawable.ic_period_length)
+            rowLabel.text = getString(R.string.period_length)
+            rowValue.text = "$periodLength ${getString(R.string.days)}"
+        }
+
+        // ✅ Luteal phase = days between ovulation and next period
+        val ovulation = OvulationCalculations.getOvulation(date, cycles)
+        val nextPeriod = OvulationCalculations.getNextPeriod(date, cycles)
+        val lutealDays = OvulationCalculations.daysBetweenTwoDates(ovulation, nextPeriod).toInt()
+
+        binding?.lutealPhaseRow?.apply {
+            rowIcon.setImageResource(R.drawable.ic_luteal_phase)
+            rowLabel.text = getString(R.string.luteal_phase)
+            rowValue.text = "$lutealDays ${getString(R.string.days)}"
+        }
+    }
+
     private fun onRecalculateClicked() {
-        val intent = Intent(activity, InputActivity::class.java)
-        intent.putExtra("recalculate", true)
-        startActivity(intent)
+        startActivity(Intent(activity, InputActivity::class.java).apply {
+            putExtra("recalculate", true)
+        })
     }
 
     private fun onShareUsClicked() {
@@ -78,19 +105,10 @@ class SettingsFragment : Fragment() {
     private fun onRateUsClicked() {
         val packageName = requireActivity().packageName
         try {
-            startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("market://details?id=$packageName")
-                )
-            )
-        } catch (unused: ActivityNotFoundException) {
-            startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
-                )
-            )
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName")))
+        } catch (e: ActivityNotFoundException) {
+            startActivity(Intent(Intent.ACTION_VIEW,
+                Uri.parse("https://play.google.com/store/apps/details?id=$packageName")))
         }
     }
 
@@ -106,57 +124,26 @@ class SettingsFragment : Fragment() {
         }
     }
 
-    private fun setData() {
-        val activity = activity ?: return
-        val cycles = SharedPreferenceUtils.getCycles(activity).toInt()
-        val date = SharedPreferenceUtils.getDate(activity)
-        val cycleLength = SharedPreferenceUtils.getCycleLength(activity)
-        
-        // Correctly accessing included layouts
-        binding?.menstrualCycleRow?.apply {
-            rowIcon.setImageResource(R.drawable.ic_menstrual_cycle)
-            rowLabel.text = getString(R.string.menstrual_cycle)
-            rowValue.text = "$cycles ${getString(R.string.days)}"
-        }
-
-        binding?.periodLengthRow?.apply {
-            rowIcon.setImageResource(R.drawable.ic_period_length)
-            rowLabel.text = getString(R.string.period_length)
-            rowValue.text = "$cycleLength ${getString(R.string.days)}"
-        }
-        
-        val ovulation = OvulationCalculations.getOvulation(date, cycles)
-        val nextPeriod = OvulationCalculations.getNextPeriod(date, cycles)
-        val lutealDays = OvulationCalculations.daysBetweenTwoDates(ovulation, nextPeriod).toInt()
-        
-        binding?.lutealPhaseRow?.apply {
-            rowIcon.setImageResource(R.drawable.ic_luteal_phase)
-            rowLabel.text = getString(R.string.luteal_phase)
-            rowValue.text = "$lutealDays ${getString(R.string.days)}"
-        }
-    }
-
     private fun setUpThemesRecycler() {
         val activity = activity ?: return
         val themeList = ArrayList(MyThemeHandler.CUSTOM_THEMES.toList())
-        
+
         adapter = object : CustomThemesSelectorAdapter(
             activity,
             themeList,
             handler.getAppThemeIndex(activity)
         ) {
             override fun onThemeItemSelected(myCustomTheme: MyCustomTheme?) {
-                this@SettingsFragment.handler.setAppTheme(
-                    this@SettingsFragment.adapter?.selectedTheme,
-                    activity
+                handler.setAppTheme(adapter?.selectedTheme, activity)
+                startActivity(
+                    Intent(requireContext(), MainActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    }
                 )
-                val intent = Intent(this@SettingsFragment.requireContext(), MainActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                this@SettingsFragment.startActivity(intent)
                 activity.finishAffinity()
             }
         }
-        
+
         binding?.themesRecycler?.apply {
             layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
             adapter = this@SettingsFragment.adapter

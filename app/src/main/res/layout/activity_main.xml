@@ -8,23 +8,35 @@
         android:layout_height="match_parent"
         android:background="@color/window_background">
 
+        <View
+            android:id="@+id/statusBarBackground"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/theme9"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/navigationCard"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/statusBarBackground" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/navigationCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardBackgroundColor="@android:color/transparent"
             app:cardCornerRadius="24dp"
-            app:cardElevation="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/banner1"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:strokeWidth="0dp">
@@ -38,25 +50,9 @@
                 app:tabGravity="fill"
                 app:tabIndicatorHeight="0dp"
                 app:tabMode="fixed"
-                app:tabRippleColor="@android:color/transparent"
-                app:tabTextAppearance="@style/TabTextAppearance" />
+                app:tabRippleColor="@android:color/transparent" />
 
         </com.google.android.material.card.MaterialCardView>
-
-        <FrameLayout
-            android:id="@+id/banner1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <RelativeLayout
-                android:id="@+id/banner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="50dp" />
-        </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

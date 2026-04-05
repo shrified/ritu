@@ -7,12 +7,14 @@ import java.util.Date
 import java.util.Locale
 
 object MyDateUtils {
+    private const val RANGE_REGEX = " --- | - "
+
     fun getCurrentDate(pattern: String): String {
         return SimpleDateFormat(pattern, Locale.ENGLISH).format(Calendar.getInstance().time)
     }
 
     fun getDateFromString(str: String?, separator: String): Date {
-        if (str == null) return Date()
+        if (str.isNullOrEmpty()) return Date()
         try {
             val split = str.split(separator.toRegex()).dropLastWhile { it.isEmpty() }
             if (split.size < 3) return Date()
@@ -21,6 +23,11 @@ object MyDateUtils {
             calendar.set(Calendar.YEAR, split[0].toInt())
             calendar.set(Calendar.MONTH, split[1].toInt() - 1)
             calendar.set(Calendar.DAY_OF_MONTH, split[2].toInt())
+            // Clear time fields for accurate date comparisons
+            calendar.set(Calendar.HOUR_OF_DAY, 0)
+            calendar.set(Calendar.MINUTE, 0)
+            calendar.set(Calendar.SECOND, 0)
+            calendar.set(Calendar.MILLISECOND, 0)
             return calendar.time
         } catch (e: Exception) {
             return Date()
@@ -41,7 +48,7 @@ object MyDateUtils {
         return dateList
     }
 
-    private fun isSameDay(date1: Date, date2: Date): Boolean {
+    fun isSameDay(date1: Date, date2: Date): Boolean {
         val cal1 = Calendar.getInstance().apply { time = date1 }
         val cal2 = Calendar.getInstance().apply { time = date2 }
         return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
@@ -54,11 +61,12 @@ object MyDateUtils {
         val outputFormat = SimpleDateFormat(outputPattern, Locale.ENGLISH)
         
         try {
-            if (str.contains(" --- ")) {
-                val parts = str.split(" --- ".toRegex()).dropLastWhile { it.isEmpty() }
+            val rangeRegex = RANGE_REGEX.toRegex()
+            if (str.contains(rangeRegex)) {
+                val parts = str.split(rangeRegex).dropLastWhile { it.isEmpty() }
                 if (parts.size >= 2) {
-                    val part1 = convertInto_yyyy_MMM_dd(parts[0], inputPattern, outputPattern)
-                    val part2 = convertInto_yyyy_MMM_dd(parts[1], inputPattern, outputPattern)
+                    val part1 = convertInto_yyyy_MMM_dd(parts[0].trim(), inputPattern, outputPattern)
+                    val part2 = convertInto_yyyy_MMM_dd(parts[1].trim(), inputPattern, outputPattern)
                     return "$part1 --- $part2"
                 }
             }
@@ -76,6 +84,7 @@ object MyDateUtils {
         val end = format.parse(endDate) ?: return false
         val target = format.parse(dateToCheck) ?: return false
         
-        return (target.after(start) || target == start) && (target.before(end) || target == end)
+        // Use compareTo for more reliable equality and range checks
+        return target.compareTo(start) >= 0 && target.compareTo(end) <= 0
     }
 }

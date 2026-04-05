@@ -1,6 +1,5 @@
 package com.srzone.ritu.Databases.Entities
 
-
 class DateDetails {
     var fertileDays: String? = null
     var id: Int = 0

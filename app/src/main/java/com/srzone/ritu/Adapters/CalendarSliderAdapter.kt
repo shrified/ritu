@@ -59,11 +59,11 @@ abstract class CalendarSliderAdapter(
     }
 
     class DateViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val cardView: MaterialCardView = view.findViewById(R.id.cardView)
+        // RIGHT: Matches your calendar_slider_layout.xml
+        private val cardView: com.google.android.material.card.MaterialCardView = view.findViewById(R.id.cardView)
+        private val dateTvBg: com.google.android.material.card.MaterialCardView = view.findViewById(R.id.dateTvBg)
         private val dateTv: TextView = view.findViewById(R.id.dateTv)
-        private val dateTvBg: MaterialCardView = view.findViewById(R.id.dateTvBg)
         private val dayTv: TextView = view.findViewById(R.id.dayTv)
-
         fun bind(date: Date, isSelected: Boolean) {
             val dayFormat = SimpleDateFormat("EEE", Locale.getDefault()).format(date)
             val dateFormat = SimpleDateFormat("dd", Locale.getDefault()).format(date)

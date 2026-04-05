@@ -5,14 +5,26 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:id="@+id/rootLayout"
         android:layout_height="match_parent"
         android:background="@color/surface_background">
+
+        <View
+            android:id="@+id/statusBarBackground"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/theme9"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0" />
+
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/statusBarBackground"
             app:navigationIcon="@drawable/ic_back"
             app:title="@string/notes"
             app:titleCentered="true" />
@@ -23,7 +35,7 @@
             android:layout_height="0dp"
             android:padding="20dp"
             android:visibility="visible"
-            app:layout_constraintBottom_toTopOf="@+id/banner1"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar">
 
             <com.google.android.material.card.MaterialCardView
@@ -115,7 +127,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/banner1"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar">
 
             <androidx.recyclerview.widget.RecyclerView
@@ -149,22 +161,9 @@
             android:contentDescription="@string/log_your_symptoms"
             android:src="@drawable/ic_add"
             android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/banner1"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:tint="@color/white" />
-
-        <FrameLayout
-            android:id="@+id/banner1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent">
-
-            <RelativeLayout
-                android:id="@+id/banner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="50dp" />
-        </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

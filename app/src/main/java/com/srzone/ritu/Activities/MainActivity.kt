@@ -2,8 +2,14 @@ package com.srzone.ritu.Activities
 
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.view.View
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.updateLayoutParams
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.srzone.ritu.Adapters.FragmentsAdapter
 import com.srzone.ritu.R
@@ -28,13 +34,40 @@ class MainActivity : AppCompatActivity() {
 
     public override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
+
+        enableEdgeToEdge()
+        // set the status bar icon colors to white
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
+
+
         val inflate = ActivityMainBinding.inflate(getLayoutInflater())
         this.binding = inflate
         setContentView(inflate.getRoot())
 
-        //        AdsGoogle adsGoogle = new AdsGoogle( this);
-//        adsGoogle.Banner_Show((RelativeLayout) findViewById(R.id.banner), this);
-//        adsGoogle.Interstitial_Show_Counter(this);
+
+        // This is the cleanest, most "Senior" way
+        val rootView = findViewById<View>(R.id.mainParentLayout)
+        val statusBarBackground = findViewById<View>(R.id.statusBarBackground)
+
+        ViewCompat.setOnApplyWindowInsetsListener(rootView) { v, insets ->
+            val systemBars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
+            )
+            
+            // Apply side padding for notches/landscape
+            v.setPadding(systemBars.left, 0, systemBars.right, 0)
+            
+            // Fake status bar height
+            statusBarBackground.updateLayoutParams {
+                height = systemBars.top
+            }
+
+            // Remove bottom padding from rootView to avoid extra space under navigation card
+            // The navigation card has its own margin and floats above the bottom.
+            
+            insets
+        }
+
         val supportFragmentManager = getSupportFragmentManager()
         this.theme = MyThemeHandler().getAppTheme(this)
         binding!!.viewPager.adapter = FragmentsAdapter(
@@ -62,8 +95,6 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onTabSelected(tab: TabLayout.Tab) {
-//                AdsGoogle adsGoogle = new AdsGoogle( MainActivity.this);
-//                adsGoogle.Interstitial_Show_Counter(MainActivity.this);
                 this@MainActivity.binding!!.viewPager.setCurrentItem(tab.getPosition())
             }
         })
@@ -79,6 +110,9 @@ class MainActivity : AppCompatActivity() {
         Utils.makeTransparentStatusBar(this)
         this.binding!!.mainParentLayout.setBackground(getResources().getDrawable(this.theme!!.bgImg))
         this.binding!!.tabLayout.setSelectedTabIndicatorColor(getResources().getColor(this.theme!!.themeColor))
+        
+        // Ensure navigationCard is transparent to avoid any background bleeding
+        binding!!.navigationCard.setCardBackgroundColor(android.graphics.Color.TRANSPARENT)
     }
 
     override fun onBackPressed() {

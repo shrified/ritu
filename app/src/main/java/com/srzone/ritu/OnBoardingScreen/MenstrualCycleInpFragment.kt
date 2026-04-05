@@ -11,59 +11,67 @@ import com.srzone.ritu.R
 import com.srzone.ritu.databinding.FragmentMenstrualCycleInpBinding
 
 class MenstrualCycleInpFragment : Fragment() {
-    var binding: FragmentMenstrualCycleInpBinding? = null
+
+    private var binding: FragmentMenstrualCycleInpBinding? = null
+
+    companion object {
+        const val MIN_CYCLE_LENGTH = 20
+        const val MAX_CYCLE_LENGTH = 40
+        const val DEFAULT_CYCLE_LENGTH = 28 // Clinically typical default
+    }
 
     override fun onCreateView(
-        layoutInflater: LayoutInflater,
-        viewGroup: ViewGroup?,
-        bundle: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
-        val inflate = FragmentMenstrualCycleInpBinding.inflate(layoutInflater)
-        this.binding = inflate
-        inflate.nextSessionBtn.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view: View?) {
-                this@MenstrualCycleInpFragment.m143x9c48bafd(view)
-            }
-        })
-        this.binding!!.nextBtn.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view: View?) {
-                this@MenstrualCycleInpFragment.m144xdc73a1be(view)
-            }
-        })
-        this.binding!!.prevBtn.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view: View?) {
-                this@MenstrualCycleInpFragment.m145x1c9e887f(view)
-            }
-        })
-        return this.binding!!.getRoot()
+        binding = FragmentMenstrualCycleInpBinding.inflate(inflater, container, false)
+
+        // Set a safe default value so toInt() never fails on an empty field
+        binding!!.cycleLengthInp.setText(DEFAULT_CYCLE_LENGTH.toString())
+
+        binding!!.nextSessionBtn.setOnClickListener { onNextSession() }
+        binding!!.nextBtn.setOnClickListener { onIncrement() }
+        binding!!.prevBtn.setOnClickListener { onDecrement() }
+
+        return binding!!.root
     }
 
-
-    fun m143x9c48bafd(view: View?) {
-        val inputActivity = requireActivity() as InputActivity
-        inputActivity.cyclesLength = this.binding!!.cycleLengthInp.getText().toString().toInt()
-        (inputActivity.findViewById<View?>(R.id.viewPager) as ViewPager2).setCurrentItem(1, true)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null // Prevent memory leaks
     }
 
+    private fun getCurrentValue(): Int {
+        return binding?.cycleLengthInp?.text?.toString()?.toIntOrNull() ?: DEFAULT_CYCLE_LENGTH
+    }
 
-    fun m144xdc73a1be(view: View?) {
-        if (this.binding!!.cycleLengthInp.getText().toString().toInt() < 40) {
-            this.binding!!.cycleLengthInp.setText(
-                (this.binding!!.cycleLengthInp.getText().toString().toInt() + 1).toString()
-            )
-        } else {
-            this.binding!!.cycleLengthInp.setText(20.toString())
+    private fun onNextSession() {
+        val activity = activity as? InputActivity ?: return // Safe cast, won't crash
+
+        val cycleLength = getCurrentValue()
+
+        // Clamp to valid range before saving
+        if (cycleLength < MIN_CYCLE_LENGTH || cycleLength > MAX_CYCLE_LENGTH) {
+            binding?.cycleLengthInp?.error = "Please enter a value between $MIN_CYCLE_LENGTH and $MAX_CYCLE_LENGTH"
+            return
         }
+
+        activity.cyclesLength = cycleLength
+        activity.findViewById<ViewPager2>(R.id.viewPager)?.setCurrentItem(1, true)
     }
 
+    private fun onIncrement() {
+        val current = getCurrentValue()
+        // If already at max, wrap around to MIN (fix: was incorrectly wrapping to 20 on next)
+        val newValue = if (current < MAX_CYCLE_LENGTH) current + 1 else MIN_CYCLE_LENGTH
+        binding?.cycleLengthInp?.setText(newValue.toString())
+    }
 
-    fun m145x1c9e887f(view: View?) {
-        if (this.binding!!.cycleLengthInp.getText().toString().toInt() > 20) {
-            this.binding!!.cycleLengthInp.setText(
-                (this.binding!!.cycleLengthInp.getText().toString().toInt() - 1).toString()
-            )
-        } else {
-            this.binding!!.cycleLengthInp.setText(40.toString())
-        }
+    private fun onDecrement() {
+        val current = getCurrentValue()
+        // If already at min, wrap around to MAX (fix: was incorrectly wrapping to 40 on prev)
+        val newValue = if (current > MIN_CYCLE_LENGTH) current - 1 else MAX_CYCLE_LENGTH
+        binding?.cycleLengthInp?.setText(newValue.toString())
     }
 }

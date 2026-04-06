@@ -17,7 +17,6 @@ import com.srzone.ritu.Adapters.CategoryBlogsAdapter
 import com.srzone.ritu.Adapters.FeaturedBlogAdapter
 import com.srzone.ritu.Adapters.GeneralBlogAdapter
 import com.srzone.ritu.Databases.LikesHandler
-import com.srzone.ritu.Databases.RecentsHandler
 import com.srzone.ritu.Model.Blog
 import com.srzone.ritu.Model.BlogCategory
 import com.srzone.ritu.Model.CategoryFeaturedBlog
@@ -53,9 +52,6 @@ class BlogsFragment : Fragment() {
             savedBtn.setOnClickListener {
                 onSavedBtnClicked()
             }
-            recentBtn.setOnClickListener {
-                onRecentBtnClicked()
-            }
         }
         return binding?.root
     }
@@ -64,7 +60,6 @@ class BlogsFragment : Fragment() {
         binding?.let {
             activateBtn(it.discoverBtn)
             deActivateBtn(it.savedBtn)
-            deActivateBtn(it.recentBtn)
             deActivateBtn(it.categoryBtn)
         }
         showDiscoverData()
@@ -74,7 +69,6 @@ class BlogsFragment : Fragment() {
         binding?.let {
             deActivateBtn(it.discoverBtn)
             deActivateBtn(it.savedBtn)
-            deActivateBtn(it.recentBtn)
             activateBtn(it.categoryBtn)
             it.discoverRecycler.visibility = View.GONE
             it.othersContentArea.visibility = View.VISIBLE
@@ -86,20 +80,9 @@ class BlogsFragment : Fragment() {
         binding?.let {
             deActivateBtn(it.discoverBtn)
             activateBtn(it.savedBtn)
-            deActivateBtn(it.recentBtn)
             deActivateBtn(it.categoryBtn)
         }
         showSavedData()
-    }
-
-    private fun onRecentBtnClicked() {
-        binding?.let {
-            deActivateBtn(it.discoverBtn)
-            deActivateBtn(it.savedBtn)
-            activateBtn(it.recentBtn)
-            deActivateBtn(it.categoryBtn)
-        }
-        showRecentData()
     }
 
     private fun activateBtn(cardView: MaterialCardView) {
@@ -129,7 +112,6 @@ class BlogsFragment : Fragment() {
         binding?.let {
             activateBtn(it.discoverBtn)
             deActivateBtn(it.savedBtn)
-            deActivateBtn(it.recentBtn)
         }
     }
 
@@ -266,111 +248,6 @@ class BlogsFragment : Fragment() {
         binding?.verticalRecyclerView?.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = CategoryBlogsAdapter(blogCategories, activity)
-        }
-    }
-
-    private fun showRecentData() {
-        binding?.let {
-            it.discoverRecycler.visibility = View.GONE
-            it.othersContentArea.visibility = View.VISIBLE
-        }
-
-        val blogList = mutableListOf<Blog>()
-        val featuredBlogList = mutableListOf<FeaturedBlog>()
-        val titleList = mutableListOf<String?>()
-
-        val context = requireContext()
-        val lang = Locale.getDefault().language
-        val readAssetFile = Utils.readAssetFile(context, "$lang.json")
-        val readAssetFile2 = Utils.readAssetFile(context, "en.json")
-
-        if (readAssetFile != null && readAssetFile2 != null) {
-            val minSize = minOf(readAssetFile.size, readAssetFile2.size)
-            for (i in 0 until minSize) {
-                val hashMap = readAssetFile[i]
-                val enMap = readAssetFile2[i]
-
-                if (enMap != null && hashMap != null) {
-                    titleList.add(enMap["title"]?.toString())
-                    try {
-                        featuredBlogList.add(
-                            FeaturedBlog(
-                                hashMap["heading"]?.toString(),
-                                hashMap["body"]?.toString(),
-                                Utils.lowerUnder(enMap["title"]?.toString() ?: ""),
-                                hashMap["title"]?.toString(),
-                                enMap["color"]?.toString(),
-                                enMap["dark"] as? Boolean ?: false
-                            )
-                        )
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                }
-            }
-        }
-
-        val readAssetFile3 = Utils.readAssetFile(context, "${lang}_g.json")
-        val readAssetFile4 = Utils.readAssetFile(context, "en_g.json")
-
-        if (readAssetFile3 != null && readAssetFile4 != null) {
-            val minSize = minOf(readAssetFile3.size, readAssetFile4.size)
-            for (i in 0 until minSize) {
-                val hashMap2 = readAssetFile3[i]
-                val enMap2 = readAssetFile4[i]
-
-                if (hashMap2 != null && enMap2 != null) {
-                    blogList.add(
-                        Blog(
-                            hashMap2["heading"]?.toString(),
-                            hashMap2["body"]?.toString(),
-                            Utils.lowerUnder(enMap2["heading"]?.toString() ?: ""),
-                            enMap2["color"]?.toString(),
-                            enMap2["dark"] as? Boolean ?: false
-                        )
-                    )
-                }
-            }
-        }
-
-        val allRecents = RecentsHandler(activity).allRecents
-        val recentBlogs = mutableListOf<Blog?>()
-        val recentFeaturedBlogs = mutableListOf<FeaturedBlog?>()
-
-        for (recents in allRecents) {
-            if (recents?.title != null) {
-                for (featuredBlog in featuredBlogList) {
-                    if (featuredBlog.detail == recents.title) {
-                        recentFeaturedBlogs.add(featuredBlog)
-                    }
-                }
-            } else if (recents?.heading != null) {
-                for (blog in blogList) {
-                    if (blog.heading == recents.heading) {
-                        recentBlogs.add(blog)
-                    }
-                }
-            }
-        }
-
-        recentBlogs.reverse()
-        recentFeaturedBlogs.reverse()
-
-        binding?.apply {
-            verticalRecyclerView.layoutManager = LinearLayoutManager(activity)
-            horizontalRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
-
-            verticalRecyclerView.adapter = GeneralBlogAdapter(
-                recentBlogs,
-                recentFeaturedBlogs,
-                titleList,
-                requireActivity(),
-                false
-            )
-            horizontalRecyclerView.adapter = FeaturedBlogAdapter(
-                recentFeaturedBlogs.filterNotNull().toMutableList(),
-                requireActivity()
-            )
         }
     }
 

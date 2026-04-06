@@ -19,6 +19,7 @@ import com.srzone.ritu.Activities.PainSOSActivity
 import com.srzone.ritu.Activities.SymptomCheckerActivity
 import com.kizitonwose.calendar.view.MonthDayBinder
 import com.kizitonwose.calendar.view.ViewContainer
+import com.srzone.ritu.Activities.ChhaupadiActivity
 import com.srzone.ritu.Activities.EditPeriodActivity
 import com.srzone.ritu.Activities.NotesActivity
 import com.srzone.ritu.Adapters.FeaturedBlogAdapter

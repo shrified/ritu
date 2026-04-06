@@ -1,7 +1,12 @@
 package com.srzone.ritu.Activities
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.widget.TextView
 import com.srzone.ritu.R
+import com.srzone.ritu.Utils.LanguageUtils
+import com.srzone.ritu.data.ChhaupadiData
+import com.srzone.ritu.databinding.ActivityChhaupadiBinding
 
 class ChhaupadiActivity : BaseActivity() {
 

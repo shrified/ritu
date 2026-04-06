@@ -217,7 +217,7 @@ class HomeFragment : Fragment() {
         }
 
         updateStatusCard()
-
+        checkCycleIrregularity()
         showFeatureBlogs()
     }
 
@@ -418,6 +418,27 @@ class HomeFragment : Fragment() {
                 }
             }
             else -> MyDateUtils.convertInto_yyyy_MMM_dd(range, "yyyy-MM-dd", "dd MMM") ?: ""
+        }
+    }
+
+    private fun checkCycleIrregularity() {
+        val lastPeriodStr = SharedPreferenceUtils.getDate(requireActivity())
+        if (lastPeriodStr.isEmpty()) return
+
+        val lastPeriod = LocalDate.parse(lastPeriodStr,
+            DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+        val daysSince = ChronoUnit.DAYS.between(lastPeriod, today)
+        val threshold = cycleLength + 7L
+
+        if (daysSince > threshold) {
+            binding?.irregularityCard?.visibility = View.VISIBLE
+            val daysOver = daysSince - cycleLength
+            binding?.irregularityTv?.text = if (LanguageUtils.getSavedLanguage(requireContext()) == "ne")
+                "तपाईंको महिनावारी ${daysOver} दिन ढिला छ"
+            else
+                "Your period is ${daysOver} days late"
+        } else {
+            binding?.irregularityCard?.visibility = View.GONE
         }
     }
 

@@ -19,6 +19,9 @@
         android:theme="@style/Theme.PeriodTracker"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.chhaupadi"
+            android:exported="false" />
+        <activity
             android:name=".Activities.SymptomCheckerActivity"
             android:exported="false" />
         <activity

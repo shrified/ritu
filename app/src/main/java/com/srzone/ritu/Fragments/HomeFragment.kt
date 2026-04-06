@@ -84,6 +84,10 @@ class HomeFragment : Fragment() {
         binding?.symptomCheckerCard?.setOnClickListener {
             startActivity(Intent(activity, SymptomCheckerActivity::class.java))
         }
+
+        binding?.chhaupadiCard?.setOnClickListener {
+            startActivity(Intent(activity, ChhaupadiActivity::class.java))
+        }
         
         binding?.articlesRecycler?.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
         setUpTheme()
@@ -459,6 +463,8 @@ class HomeFragment : Fragment() {
         binding?.sosSubtitleTv?.text = if (isNepali) "पेट दुखाइ र पीडाका उपायहरू" else "Remedies for cramps & pain"
         binding?.symptomTitleTv?.text    = if (isNepali) "लक्षण जाँच गर्नुहोस्" else "Check Your Symptoms"
         binding?.symptomSubtitleTv?.text = if (isNepali) "आफ्नो शरीरले के भन्दैछ बुझ्नुहोस्" else "Understand what your body is telling you"
+        binding?.chhaupadiTitleTv?.text = if (isNepali) "छाउपडीको सत्य" else "Chhaupadi Truth"
+        binding?.chhaupadiSubtitleTv?.text = if (isNepali) "महिनावारी सम्बन्धी भ्रम हटाउनुहोस्" else "Break myths about periods"
     }
 
     private fun showFeatureBlogs() {

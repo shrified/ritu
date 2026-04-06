@@ -79,5 +79,23 @@
     <string name="in_x_days">%d दिनमा</string>
     <string name="cycle_day_x">चक्र दिन %d</string>
     <string name="today">आज</string>
-    <string name="hello_blank_fragment">नमस्ते खाली फ्र्यागमेन्ट</string>
+    <string name="pain_sos_title">महिनावारी पीडा सहायता</string>
+    <string name="pain_sos_subtitle">आफ्नो पीडाको स्तर छान्नुहोस्</string>
+    <string name="pain_level_mild">हल्का पीडा</string>
+    <string name="pain_level_moderate">मध्यम पीडा</string>
+    <string name="pain_level_severe">तीव्र पीडा</string>
+    <string name="remedies_heading">के गर्ने</string>
+    <string name="see_doctor_warning">यदि पीडा असह्य छ वा बान्ता भइरहेको छ भने कृपया तुरुन्तै नजिकको स्वास्थ्य चौकीमा जानुहोस्।</string>
+    <string name="seek_help_label">⚠ तीव्र भए सहायता लिनुहोस्</string>
+    <string name="symptom_checker_title">लक्षण जाँच</string>
+    <string name="step1_heading">तपाईंलाई के भइरहेको छ?</string>
+    <string name="step2_heading">यी मध्ये पनि छ?</string>
+    <string name="step2_subtitle">सबै लागू हुने छान्नुहोस्</string>
+    <string name="step3_heading">यसको अर्थ के हुन सक्छ</string>
+    <string name="causes_heading">सम्भावित कारणहरू</string>
+    <string name="remedies_at_home">घरेलु उपायहरू</string>
+    <string name="see_doctor_heading">डाक्टरकहाँ जानुहोस् यदि…</string>
+    <string name="btn_next">अर्को →</string>
+    <string name="btn_see_results">नतिजा हेर्नुहोस्</string>
+    <string name="btn_start_over">अर्को लक्षण जाँच गर्नुहोस्</string>
 </resources>

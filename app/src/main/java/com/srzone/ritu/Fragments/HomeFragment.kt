@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.DayPosition
+import com.srzone.ritu.Activities.PainSOSActivity
+import com.srzone.ritu.Activities.SymptomCheckerActivity
 import com.kizitonwose.calendar.view.MonthDayBinder
 import com.kizitonwose.calendar.view.ViewContainer
 import com.srzone.ritu.Activities.EditPeriodActivity
@@ -73,6 +75,14 @@ class HomeFragment : Fragment() {
         
         binding?.notesTv?.setOnClickListener {
             startActivity(Intent(activity, NotesActivity::class.java))
+        }
+
+        binding?.sosCard?.setOnClickListener {
+            startActivity(Intent(activity, PainSOSActivity::class.java))
+        }
+
+        binding?.symptomCheckerCard?.setOnClickListener {
+            startActivity(Intent(activity, SymptomCheckerActivity::class.java))
         }
         
         binding?.articlesRecycler?.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
@@ -218,6 +228,7 @@ class HomeFragment : Fragment() {
 
         updateStatusCard()
         checkCycleIrregularity()
+        updateCardStrings()
         showFeatureBlogs()
     }
 
@@ -440,6 +451,14 @@ class HomeFragment : Fragment() {
         } else {
             binding?.irregularityCard?.visibility = View.GONE
         }
+    }
+
+    private fun updateCardStrings() {
+        val isNepali = LanguageUtils.getSavedLanguage(requireContext()) == "ne"
+        binding?.sosTitleTv?.text    = if (isNepali) "महिनावारी पीडा सहायता" else "Period Pain Help"
+        binding?.sosSubtitleTv?.text = if (isNepali) "पेट दुखाइ र पीडाका उपायहरू" else "Remedies for cramps & pain"
+        binding?.symptomTitleTv?.text    = if (isNepali) "लक्षण जाँच गर्नुहोस्" else "Check Your Symptoms"
+        binding?.symptomSubtitleTv?.text = if (isNepali) "आफ्नो शरीरले के भन्दैछ बुझ्नुहोस्" else "Understand what your body is telling you"
     }
 
     private fun showFeatureBlogs() {

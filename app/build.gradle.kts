@@ -96,6 +96,7 @@ dependencies {
     implementation ("org.threeten:threetenbp:0.7.2")
     implementation ("com.airbnb.android:lottie:5.2.0")
     implementation(libs.core.ktx)
+    implementation(libs.activity)
 
 //    implementation ("com.google.android.gms:play-services-ads:21.3.0")
 }

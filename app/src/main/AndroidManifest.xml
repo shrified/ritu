@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -9,29 +10,47 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
+        android:hardwareAccelerated="true"
         android:icon="@drawable/app_logo_ritu"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@drawable/app_logo_ritu"
         android:supportsRtl="true"
         android:theme="@style/Theme.PeriodTracker"
-        android:hardwareAccelerated="true"
-        android:largeHeap="true"
         tools:targetApi="31">
-
-        <activity android:name="com.srzone.ritu.Activities.SplashScreen" android:exported="true">
+        <activity
+            android:name=".Activities.SymptomCheckerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.PainSOSActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.SplashScreen"
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Activities.EditPeriodActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.DiaryNotesPreviewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.NotesActivity"
+            android:exported="false" />
+        <activity android:name=".Activities.InputActivity" />
+        <activity
+            android:name=".Activities.GenericReadingActivity"
+            android:exported="false"
+            android:theme="@style/DefaultFontTheme" />
+        <activity
+            android:name=".Activities.MainActivity"
+            android:exported="true" />
 
-        <activity android:name="com.srzone.ritu.Activities.EditPeriodActivity" android:exported="false"/>
-        <activity android:name="com.srzone.ritu.Activities.DiaryNotesPreviewActivity" android:exported="false"/>
-        <activity android:name="com.srzone.ritu.Activities.NotesActivity" android:exported="false"/>
-        <activity android:name="com.srzone.ritu.Activities.InputActivity" />
-
-        <activity android:theme="@style/DefaultFontTheme" android:name="com.srzone.ritu.Activities.GenericReadingActivity" android:exported="false"/>
-        <activity android:name="com.srzone.ritu.Activities.MainActivity" android:exported="true"/>
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

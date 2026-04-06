@@ -79,6 +79,25 @@
     <string name="in_x_days">in %d days</string>
     <string name="cycle_day_x">Cycle day %d</string>
     <string name="today">Today</string>
+    <string name="pain_sos_title">Period Pain Help</string>
+    <string name="pain_sos_subtitle">Select your pain level</string>
+    <string name="pain_level_mild">Mild Cramps</string>
+    <string name="pain_level_moderate">Moderate Pain</string>
+    <string name="pain_level_severe">Severe Pain</string>
+    <string name="remedies_heading">What to do</string>
+    <string name="see_doctor_warning">If pain is unbearable or you are vomiting, please visit your nearest health post immediately.</string>
+    <string name="seek_help_label">⚠ Seek help if severe</string>
+
+    <string name="symptom_checker_title">Symptom Checker</string>
+    <string name="step1_heading">What are you experiencing?</string>
+    <string name="step2_heading">Any of these too?</string>
+    <string name="step2_subtitle">Select all that apply</string>
+    <string name="step3_heading">What this might mean</string>
+    <string name="causes_heading">Possible causes</string>
+    <string name="remedies_at_home">Home remedies</string>
+    <string name="see_doctor_heading">See a doctor if…</string>
+    <string name="btn_next">Next →</string>
+    <string name="btn_see_results">See Results</string>
+    <string name="btn_start_over">Check another symptom</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

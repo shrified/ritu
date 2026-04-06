@@ -30,7 +30,7 @@
         <activity android:name="com.srzone.ritu.Activities.NotesActivity" android:exported="false"/>
         <activity android:name="com.srzone.ritu.Activities.InputActivity" />
 
-        <activity android:theme="@style/DefaultFontTheme" android:name="com.srzone.ritu.Activities.ReadBlogActivity" android:exported="false"/>
+        <activity android:theme="@style/DefaultFontTheme" android:name="com.srzone.ritu.Activities.GenericReadingActivity" android:exported="false"/>
         <activity android:name="com.srzone.ritu.Activities.MainActivity" android:exported="true"/>
         <provider
             android:name="androidx.core.content.FileProvider"

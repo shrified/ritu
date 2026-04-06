@@ -5,8 +5,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.srzone.ritu.Fragments.BlogsFragment
-import com.srzone.ritu.Fragments.CategoryBlogsFragment
 import com.srzone.ritu.Fragments.HomeFragment
+import com.srzone.ritu.Fragments.NotesFragment
 import com.srzone.ritu.Fragments.SettingsFragment
 
 class FragmentsAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
@@ -17,8 +17,8 @@ class FragmentsAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
 
     override fun createFragment(i: Int): Fragment {
         return when (i) {
-            1 -> BlogsFragment()
-            2 -> CategoryBlogsFragment()
+            1 -> NotesFragment()
+            2 -> BlogsFragment()
             3 -> SettingsFragment()
             else -> HomeFragment()
         }

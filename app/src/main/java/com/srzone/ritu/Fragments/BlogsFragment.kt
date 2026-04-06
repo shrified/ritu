@@ -12,11 +12,15 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
+import com.google.gson.internal.LinkedTreeMap
+import com.srzone.ritu.Adapters.CategoryBlogsAdapter
 import com.srzone.ritu.Adapters.FeaturedBlogAdapter
 import com.srzone.ritu.Adapters.GeneralBlogAdapter
 import com.srzone.ritu.Databases.LikesHandler
 import com.srzone.ritu.Databases.RecentsHandler
 import com.srzone.ritu.Model.Blog
+import com.srzone.ritu.Model.BlogCategory
+import com.srzone.ritu.Model.CategoryFeaturedBlog
 import com.srzone.ritu.Model.FeaturedBlog
 import com.srzone.ritu.R
 import com.srzone.ritu.ThemesFiles.MyThemeHandler
@@ -24,6 +28,7 @@ import com.srzone.ritu.Utils.ImageUtils
 import com.srzone.ritu.Utils.Utils
 import com.srzone.ritu.databinding.FragmentBlogsBinding
 import java.util.Locale
+import kotlin.collections.get
 
 class BlogsFragment : Fragment() {
     private var binding: FragmentBlogsBinding? = null
@@ -42,6 +47,9 @@ class BlogsFragment : Fragment() {
             discoverBtn.setOnClickListener {
                 onDiscoverBtnClicked()
             }
+            categoryBtn.setOnClickListener {
+                onCategoryBtnClicked()
+            }
             savedBtn.setOnClickListener {
                 onSavedBtnClicked()
             }
@@ -57,8 +65,21 @@ class BlogsFragment : Fragment() {
             activateBtn(it.discoverBtn)
             deActivateBtn(it.savedBtn)
             deActivateBtn(it.recentBtn)
+            deActivateBtn(it.categoryBtn)
         }
         showDiscoverData()
+    }
+
+    private fun onCategoryBtnClicked() {
+        binding?.let {
+            deActivateBtn(it.discoverBtn)
+            deActivateBtn(it.savedBtn)
+            deActivateBtn(it.recentBtn)
+            activateBtn(it.categoryBtn)
+            it.discoverRecycler.visibility = View.GONE
+            it.othersContentArea.visibility = View.VISIBLE
+        }
+        showCategoryData()
     }
 
     private fun onSavedBtnClicked() {
@@ -66,6 +87,7 @@ class BlogsFragment : Fragment() {
             deActivateBtn(it.discoverBtn)
             activateBtn(it.savedBtn)
             deActivateBtn(it.recentBtn)
+            deActivateBtn(it.categoryBtn)
         }
         showSavedData()
     }
@@ -75,6 +97,7 @@ class BlogsFragment : Fragment() {
             deActivateBtn(it.discoverBtn)
             deActivateBtn(it.savedBtn)
             activateBtn(it.recentBtn)
+            deActivateBtn(it.categoryBtn)
         }
         showRecentData()
     }
@@ -83,7 +106,7 @@ class BlogsFragment : Fragment() {
         val linearLayout = cardView.getChildAt(0) as? LinearLayout ?: return
         val icon = linearLayout.getChildAt(0) as? ImageView
         val text = linearLayout.getChildAt(1) as? TextView
-        
+
         cardView.setCardBackgroundColor(ContextCompat.getColor(requireContext(), themeColorRes))
         icon?.let { ImageUtils.setTint(it, R.color.white) }
         text?.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
@@ -93,7 +116,7 @@ class BlogsFragment : Fragment() {
         val linearLayout = cardView.getChildAt(0) as? LinearLayout ?: return
         val icon = linearLayout.getChildAt(0) as? ImageView
         val text = linearLayout.getChildAt(1) as? TextView
-        
+
         cardView.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
         icon?.let { ImageUtils.setTint(it, themeColorRes) } // ✅ Pass Res ID, not color value
         text?.setTextColor(ContextCompat.getColor(requireContext(), themeColorRes))
@@ -102,7 +125,7 @@ class BlogsFragment : Fragment() {
     private fun setUpTheme() {
         val theme = MyThemeHandler().getAppTheme(requireActivity())
         themeColorRes = theme?.themeColor ?: R.color.app_primary_color
-        
+
         binding?.let {
             activateBtn(it.discoverBtn)
             deActivateBtn(it.savedBtn)
@@ -115,22 +138,22 @@ class BlogsFragment : Fragment() {
             it.discoverRecycler.visibility = View.VISIBLE
             it.othersContentArea.visibility = View.GONE
         }
-        
+
         val blogList = mutableListOf<Blog?>()
         val featuredBlogList = mutableListOf<FeaturedBlog?>()
         val titleList = mutableListOf<String?>()
-        
+
         val context = requireContext()
         val lang = Locale.getDefault().language
         val readAssetFile = Utils.readAssetFile(context, "$lang.json")
         val readAssetFile2 = Utils.readAssetFile(context, "en.json")
-        
+
         if (readAssetFile != null && readAssetFile2 != null) {
             val minSize = minOf(readAssetFile.size, readAssetFile2.size)
             for (i in 0 until minSize) {
                 val hashMap = readAssetFile[i]
                 val enMap = readAssetFile2[i]
-                
+
                 if (enMap != null && hashMap != null) {
                     titleList.add(enMap["title"]?.toString())
                     featuredBlogList.add(
@@ -146,16 +169,16 @@ class BlogsFragment : Fragment() {
                 }
             }
         }
-        
+
         val readAssetFile3 = Utils.readAssetFile(context, "${lang}_g.json")
         val readAssetFile4 = Utils.readAssetFile(context, "en_g.json")
-        
+
         if (readAssetFile3 != null && readAssetFile4 != null) {
             val minSize = minOf(readAssetFile3.size, readAssetFile4.size)
             for (i in 0 until minSize) {
                 val hashMap2 = readAssetFile3[i]
                 val enMap2 = readAssetFile4[i]
-                
+
                 if (hashMap2 != null && enMap2 != null) {
                     blogList.add(
                         Blog(
@@ -169,9 +192,9 @@ class BlogsFragment : Fragment() {
                 }
             }
         }
-        
+
         blogList.shuffle()
-        
+
         binding?.discoverRecycler?.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = GeneralBlogAdapter(
@@ -184,27 +207,89 @@ class BlogsFragment : Fragment() {
         }
     }
 
-    private fun showRecentData() {
-        binding?.let {
-            it.discoverRecycler.visibility = View.GONE
-            it.othersContentArea.visibility = View.VISIBLE
-        }
-        
-        val blogList = mutableListOf<Blog>()
-        val featuredBlogList = mutableListOf<FeaturedBlog>()
-        val titleList = mutableListOf<String?>()
-        
-        val context = requireContext()
+    private fun showCategoryData() {
+        val context = context ?: return
+        binding?.verticalRecyclerView?.visibility = View.VISIBLE
+
+        val blogCategories = mutableListOf<BlogCategory?>()
         val lang = Locale.getDefault().language
-        val readAssetFile = Utils.readAssetFile(context, "$lang.json")
-        val readAssetFile2 = Utils.readAssetFile(context, "en.json")
-        
+        val readAssetFile = Utils.readAssetFile(context, "${lang}_c.json")
+        val readAssetFile2 = Utils.readAssetFile(context, "en_c.json")
+
         if (readAssetFile != null && readAssetFile2 != null) {
             val minSize = minOf(readAssetFile.size, readAssetFile2.size)
             for (i in 0 until minSize) {
                 val hashMap = readAssetFile[i]
                 val enMap = readAssetFile2[i]
-                
+
+                if (hashMap != null && enMap != null) {
+                    val data = hashMap["data"] as? ArrayList<*>
+                    val enData = enMap["data"] as? ArrayList<*>
+                    val blogList = mutableListOf<CategoryFeaturedBlog?>()
+
+                    if (data != null && enData != null) {
+                        val minDataSize = minOf(data.size, enData.size)
+                        for (i2 in 0 until minDataSize) {
+                            val linkedTreeMap = data[i2] as? LinkedTreeMap<*, *>
+                            val enLinkedTreeMap = enData[i2] as? LinkedTreeMap<*, *>
+
+                            if (linkedTreeMap != null && enLinkedTreeMap != null) {
+                                val heading = Utils.getStringFromObj(linkedTreeMap["heading"])
+                                if (!heading.isNullOrEmpty()) {
+                                    blogList.add(
+                                        CategoryFeaturedBlog(
+                                            heading,
+                                            Utils.getStringFromObj(linkedTreeMap["body"]),
+                                            Utils.lowerUnder(Utils.getStringFromObj(enLinkedTreeMap["title"]) ?: ""),
+                                            Utils.getStringFromObj(linkedTreeMap["title"]),
+                                            Utils.getStringFromObj(enLinkedTreeMap["color"]),
+                                            Utils.getBoolFromObj(enLinkedTreeMap["dark"])
+                                        )
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+                    blogCategories.add(
+                        BlogCategory(
+                            hashMap["category"].toString(),
+                            categoriesRes[i],
+                            blogList
+                        )
+                    )
+                }
+            }
+        }
+
+        blogCategories.shuffle()
+        binding?.verticalRecyclerView?.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = CategoryBlogsAdapter(blogCategories, activity)
+        }
+    }
+
+    private fun showRecentData() {
+        binding?.let {
+            it.discoverRecycler.visibility = View.GONE
+            it.othersContentArea.visibility = View.VISIBLE
+        }
+
+        val blogList = mutableListOf<Blog>()
+        val featuredBlogList = mutableListOf<FeaturedBlog>()
+        val titleList = mutableListOf<String?>()
+
+        val context = requireContext()
+        val lang = Locale.getDefault().language
+        val readAssetFile = Utils.readAssetFile(context, "$lang.json")
+        val readAssetFile2 = Utils.readAssetFile(context, "en.json")
+
+        if (readAssetFile != null && readAssetFile2 != null) {
+            val minSize = minOf(readAssetFile.size, readAssetFile2.size)
+            for (i in 0 until minSize) {
+                val hashMap = readAssetFile[i]
+                val enMap = readAssetFile2[i]
+
                 if (enMap != null && hashMap != null) {
                     titleList.add(enMap["title"]?.toString())
                     try {
@@ -224,16 +309,16 @@ class BlogsFragment : Fragment() {
                 }
             }
         }
-        
+
         val readAssetFile3 = Utils.readAssetFile(context, "${lang}_g.json")
         val readAssetFile4 = Utils.readAssetFile(context, "en_g.json")
-        
+
         if (readAssetFile3 != null && readAssetFile4 != null) {
             val minSize = minOf(readAssetFile3.size, readAssetFile4.size)
             for (i in 0 until minSize) {
                 val hashMap2 = readAssetFile3[i]
                 val enMap2 = readAssetFile4[i]
-                
+
                 if (hashMap2 != null && enMap2 != null) {
                     blogList.add(
                         Blog(
@@ -247,11 +332,11 @@ class BlogsFragment : Fragment() {
                 }
             }
         }
-        
+
         val allRecents = RecentsHandler(activity).allRecents
         val recentBlogs = mutableListOf<Blog?>()
         val recentFeaturedBlogs = mutableListOf<FeaturedBlog?>()
-        
+
         for (recents in allRecents) {
             if (recents?.title != null) {
                 for (featuredBlog in featuredBlogList) {
@@ -267,14 +352,14 @@ class BlogsFragment : Fragment() {
                 }
             }
         }
-        
+
         recentBlogs.reverse()
         recentFeaturedBlogs.reverse()
-        
+
         binding?.apply {
             verticalRecyclerView.layoutManager = LinearLayoutManager(activity)
             horizontalRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
-            
+
             verticalRecyclerView.adapter = GeneralBlogAdapter(
                 recentBlogs,
                 recentFeaturedBlogs,
@@ -294,22 +379,22 @@ class BlogsFragment : Fragment() {
             it.discoverRecycler.visibility = View.GONE
             it.othersContentArea.visibility = View.VISIBLE
         }
-        
+
         val blogList = mutableListOf<Blog>()
         val featuredBlogList = mutableListOf<FeaturedBlog>()
         val titleList = mutableListOf<String?>()
-        
+
         val context = requireContext()
         val lang = Locale.getDefault().language
         val readAssetFile = Utils.readAssetFile(context, "$lang.json")
         val readAssetFile2 = Utils.readAssetFile(context, "en.json")
-        
+
         if (readAssetFile != null && readAssetFile2 != null) {
             val minSize = minOf(readAssetFile.size, readAssetFile2.size)
             for (i in 0 until minSize) {
                 val hashMap = readAssetFile[i]
                 val enMap = readAssetFile2[i]
-                
+
                 if (enMap != null && hashMap != null) {
                     titleList.add(enMap["title"]?.toString())
                     featuredBlogList.add(
@@ -325,16 +410,16 @@ class BlogsFragment : Fragment() {
                 }
             }
         }
-        
+
         val readAssetFile3 = Utils.readAssetFile(context, "${lang}_g.json")
         val readAssetFile4 = Utils.readAssetFile(context, "en_g.json")
-        
+
         if (readAssetFile3 != null && readAssetFile4 != null) {
             val minSize = minOf(readAssetFile3.size, readAssetFile4.size)
             for (i in 0 until minSize) {
                 val hashMap2 = readAssetFile3[i]
                 val enMap2 = readAssetFile4[i]
-                
+
                 if (hashMap2 != null && enMap2 != null) {
                     blogList.add(
                         Blog(
@@ -348,11 +433,11 @@ class BlogsFragment : Fragment() {
                 }
             }
         }
-        
+
         val allLikes = LikesHandler(activity).allLikes
         val savedBlogs = mutableListOf<Blog?>()
         val savedFeaturedBlogs = mutableListOf<FeaturedBlog?>()
-        
+
         for (likes in allLikes) {
             if (likes?.title != null) {
                 for (featuredBlog in featuredBlogList) {
@@ -368,14 +453,14 @@ class BlogsFragment : Fragment() {
                 }
             }
         }
-        
+
         savedBlogs.reverse()
         savedFeaturedBlogs.reverse()
-        
+
         binding?.apply {
             verticalRecyclerView.layoutManager = LinearLayoutManager(activity)
             horizontalRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
-            
+
             verticalRecyclerView.adapter = GeneralBlogAdapter(
                 savedBlogs,
                 savedFeaturedBlogs,
@@ -394,4 +479,55 @@ class BlogsFragment : Fragment() {
         super.onDestroyView()
         binding = null
     }
+
+
+    companion object {
+         val categoriesRes = intArrayOf(
+            R.string.anxiety_and_depression,
+            R.string.pain_managment,
+            R.string.boost_intimacy,
+            R.string.birth_control,
+            R.string.sex_worries,
+            R.string.mental_stress,
+            R.string.healthy_eating,
+            R.string.yoga_and_exercise,
+            R.string.increase_fertility,
+            R.string.sexual_health,
+            R.string.hormonal_health,
+            R.string.menstrual_pain,
+            R.string.high_bleeding_and_hormonal_imbalance,
+            R.string.high_bleeding,
+            R.string.stress_and_menstrual_cycle,
+            R.string.pain_in_fertility_test,
+            R.string.juice_during_period,
+            R.string.menstrual_cramps,
+            R.string.normal_discharge_time,
+            R.string.female_reproductive,
+            R.string.pms_symptoms
+        )
+         val categories = arrayOf(
+            "Anxiety and depression",
+            "Pain Management",
+            "Boost intimacy",
+            "Birth control",
+            "Sex Worries",
+            "Mental Stress",
+            "Healthy Eating",
+            "Yoga & exercise",
+            "Increase Fertility",
+            "Sexual Health ",
+            "Hormonal Health",
+            "Menstrual Pain",
+            "High Bleeding and Hormonal Imbalance",
+            "High Bleeding",
+            "Stress and Menstrual Cycle",
+            "Pain in Fertility Test",
+            "Juice During Periods",
+            "Menstrual Cramps",
+            "Normal Discharge Time",
+            "Female Reproductive",
+            "PMS symptoms"
+        )
+    }
+
 }

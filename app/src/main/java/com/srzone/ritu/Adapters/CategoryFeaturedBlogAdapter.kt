@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.srzone.ritu.Activities.ReadBlogActivity
+import com.srzone.ritu.Activities.GenericReadingActivity
 import com.srzone.ritu.Model.CategoryFeaturedBlog
 import com.srzone.ritu.R
 import com.srzone.ritu.Utils.Utils
@@ -43,7 +43,7 @@ class CategoryFeaturedBlogAdapter(
 
     private fun openBlogActivity(position: Int) {
         val blog = this.blogList[position]
-        val intent = Intent(this.activity, ReadBlogActivity::class.java)
+        val intent = Intent(this.activity, GenericReadingActivity::class.java)
         intent.putExtra("heading", blog.heading)
         intent.putExtra("imgRes", blog.imgPath)
         intent.putExtra("body", blog.body)
@@ -53,7 +53,7 @@ class CategoryFeaturedBlogAdapter(
         intent.putExtra("dark", blog.isDark)
         this.activity.startActivity(intent)
         
-        if (this.activity is ReadBlogActivity) {
+        if (this.activity is GenericReadingActivity) {
             this.activity.finish()
         }
     }

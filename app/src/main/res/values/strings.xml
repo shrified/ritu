@@ -79,4 +79,6 @@
     <string name="in_x_days">in %d days</string>
     <string name="cycle_day_x">Cycle day %d</string>
     <string name="today">Today</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

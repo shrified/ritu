@@ -14,7 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.srzone.ritu.Activities.ReadBlogActivity
+import com.srzone.ritu.Activities.GenericReadingActivity
 import com.srzone.ritu.Model.Blog
 import com.srzone.ritu.Model.FeaturedBlog
 import com.srzone.ritu.R
@@ -126,7 +126,7 @@ class GeneralBlogAdapter(
 
     private fun openBlogActivity(i: Int) {
         val blog = list[i] ?: return
-        val intent = Intent(this.activity, ReadBlogActivity::class.java)
+        val intent = Intent(this.activity, GenericReadingActivity::class.java)
         intent.putExtra("heading", blog.heading)
         intent.putExtra("imgRes", blog.imgPath)
         intent.putExtra("body", blog.body)

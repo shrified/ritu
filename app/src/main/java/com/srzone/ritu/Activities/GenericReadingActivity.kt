@@ -25,12 +25,12 @@ import com.srzone.ritu.Model.FeaturedBlog
 import com.srzone.ritu.R
 import com.srzone.ritu.Utils.ImageUtils
 import com.srzone.ritu.Utils.Utils
-import com.srzone.ritu.databinding.ActivityReadBlogBinding
+import com.srzone.ritu.databinding.ActivityGenericReadingBinding
 import java.util.Locale
 
-class ReadBlogActivity : AppCompatActivity() {
+class GenericReadingActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityReadBlogBinding
+    private lateinit var binding: ActivityGenericReadingBinding
     private var heading: String? = null
     private var isCategory = false
     private lateinit var likesHandler: LikesHandler
@@ -45,7 +45,7 @@ class ReadBlogActivity : AppCompatActivity() {
         WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
 
 
-        binding = ActivityReadBlogBinding.inflate(layoutInflater)
+        binding = ActivityGenericReadingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
@@ -193,7 +193,7 @@ class ReadBlogActivity : AppCompatActivity() {
         } else {
             val like = likesHandler.getLikeByParam(heading ?: "", Params.KEY_LIKES_HEADING)
             if (like == null) {
-                likesHandler.addLike(Likes().apply { this.heading = this@ReadBlogActivity.heading })
+                likesHandler.addLike(Likes().apply { this.heading = this@GenericReadingActivity.heading })
                 setLiked(true)
             } else {
                 likesHandler.deleteLike(like.id.toString())
@@ -226,7 +226,7 @@ class ReadBlogActivity : AppCompatActivity() {
         } else {
             val recent = recentsHandler.getRecentByParam(heading ?: "", Params.KEY_RECENTS_HEADING)
             if (recent != null) recentsHandler.deleteRecent(recent.id.toString())
-            recentsHandler.addRecent(Recents().apply { this.heading = this@ReadBlogActivity.heading })
+            recentsHandler.addRecent(Recents().apply { this.heading = this@GenericReadingActivity.heading })
         }
     }
 }

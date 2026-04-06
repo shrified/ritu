@@ -87,7 +87,8 @@
                         android:id="@+id/englishCheck"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_check"
+                        android:src="@drawable/legend_dot"
+                        android:backgroundTint="@color/theme9"
                         android:visibility="gone"
                         app:tint="@color/app_primary_color" />
 
@@ -125,7 +126,8 @@
                         android:id="@+id/nepaliCheck"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_check"
+                        android:src="@drawable/legend_dot"
+                        android:backgroundTint="@color/theme9"
                         android:visibility="gone"
                         app:tint="@color/app_primary_color" />
 

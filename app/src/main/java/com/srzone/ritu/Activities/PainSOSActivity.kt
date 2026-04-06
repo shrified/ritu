@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.srzone.ritu.Data.PainSOSData
-import com.srzone.ritu.Data.PainSOSData.PainLevel
+import com.srzone.ritu.data.PainSOSData
+import com.srzone.ritu.data.PainSOSData.PainLevel
 import com.srzone.ritu.R
 import com.srzone.ritu.Utils.LanguageUtils
 import com.srzone.ritu.databinding.ActivityPainSosBinding

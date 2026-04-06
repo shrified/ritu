@@ -59,7 +59,7 @@ class PeriodInputFragment : Fragment() {
         }
 
         activity.periodLength = periodLength
-        activity.findViewById<ViewPager2>(R.id.viewPager)?.setCurrentItem(2, true)
+        activity.findViewById<ViewPager2>(R.id.viewPager)?.setCurrentItem(3, true)
     }
 
     private fun onBack() {

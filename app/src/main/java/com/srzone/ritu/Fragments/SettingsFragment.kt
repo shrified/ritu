@@ -17,6 +17,7 @@ import com.srzone.ritu.Adapters.CustomThemesSelectorAdapter
 import com.srzone.ritu.R
 import com.srzone.ritu.ThemesFiles.MyCustomTheme
 import com.srzone.ritu.ThemesFiles.MyThemeHandler
+import com.srzone.ritu.Utils.LanguageUtils
 import com.srzone.ritu.Utils.OvulationCalculations
 import com.srzone.ritu.Utils.SharedPreferenceUtils
 import com.srzone.ritu.databinding.FragmentSettingsBinding
@@ -38,6 +39,7 @@ class SettingsFragment : Fragment() {
         binding?.rateUsBtn?.setOnClickListener { onRateUsClicked() }
         binding?.privacyPolicyBtn?.setOnClickListener { onPrivacyPolicyClicked() }
 
+        setupLanguageToggle()
         setUpThemesRecycler()
         setUpTheme()
 
@@ -48,6 +50,42 @@ class SettingsFragment : Fragment() {
         super.onResume()
         // ✅ Refresh rows every time user comes back to this screen
         setData()
+    }
+
+    private fun setupLanguageToggle() {
+        val current = LanguageUtils.getSavedLanguage(requireContext())
+        updateLanguageButtons(current)
+
+        binding?.languageEnBtn?.setOnClickListener {
+            LanguageUtils.saveLanguage(requireContext(), "en")
+            updateLanguageButtons("en")
+        }
+
+        binding?.languageNeBtn?.setOnClickListener {
+            LanguageUtils.saveLanguage(requireContext(), "ne")
+            updateLanguageButtons("ne")
+        }
+    }
+
+    private fun updateLanguageButtons(activeLang: String) {
+        val activeColor = ContextCompat.getColor(requireContext(), R.color.white)
+        val inactiveColor = ContextCompat.getColor(requireContext(), R.color.text_primary)
+
+        if (activeLang == "en") {
+            binding?.languageEnBtn?.setBackgroundColor(
+                ContextCompat.getColor(requireContext(), R.color.app_primary_color))
+            binding?.languageEnBtn?.setTextColor(activeColor)
+            binding?.languageNeBtn?.setBackgroundColor(
+                ContextCompat.getColor(requireContext(), android.R.color.transparent))
+            binding?.languageNeBtn?.setTextColor(inactiveColor)
+        } else {
+            binding?.languageNeBtn?.setBackgroundColor(
+                ContextCompat.getColor(requireContext(), R.color.app_primary_color))
+            binding?.languageNeBtn?.setTextColor(activeColor)
+            binding?.languageEnBtn?.setBackgroundColor(
+                ContextCompat.getColor(requireContext(), android.R.color.transparent))
+            binding?.languageEnBtn?.setTextColor(inactiveColor)
+        }
     }
 
     private fun setData() {
@@ -113,7 +151,7 @@ class SettingsFragment : Fragment() {
     }
 
     private fun onPrivacyPolicyClicked() {
-        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://google.com")))
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://tszapps.blogspot.com/p/privacy-policy-ritu.html")))
     }
 
     private fun setUpTheme() {

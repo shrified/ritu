@@ -21,7 +21,7 @@ import com.srzone.ritu.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
     var binding: ActivityMainBinding? = null
     private val tabIcons = intArrayOf(
         R.drawable.ic_home,

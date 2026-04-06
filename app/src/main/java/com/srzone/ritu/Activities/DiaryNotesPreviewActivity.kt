@@ -17,7 +17,7 @@ import com.srzone.ritu.Databases.Params
 import com.srzone.ritu.R
 import com.srzone.ritu.databinding.ActivityDiaryNotesPreviewBinding
 
-class DiaryNotesPreviewActivity : AppCompatActivity() {
+class DiaryNotesPreviewActivity : BaseActivity() {
 
     private var binding: ActivityDiaryNotesPreviewBinding? = null
     private var handler: NoteHandler? = null

@@ -15,7 +15,7 @@ import com.srzone.ritu.Utils.SharedPreferenceUtils
 import com.srzone.ritu.Utils.Utils
 import com.srzone.ritu.databinding.ActivityInputBinding
 
-class InputActivity : AppCompatActivity() {
+class InputActivity : BaseActivity() {
     var binding: ActivityInputBinding? = null
     @JvmField
     var cyclesLength: Int = 0

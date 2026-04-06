@@ -24,7 +24,7 @@ import com.srzone.ritu.databinding.ActivityNotesBinding
 import java.util.Calendar
 import java.util.Locale
 
-class NotesActivity : AppCompatActivity(), OnLongItemCLickedListener {
+class NotesActivity : BaseActivity(), OnLongItemCLickedListener {
     private lateinit var binding: ActivityNotesBinding
     private lateinit var handler: NoteHandler
     private var selectedCalendar: Calendar = Calendar.getInstance()

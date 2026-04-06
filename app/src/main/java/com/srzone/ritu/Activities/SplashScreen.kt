@@ -12,7 +12,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.updateLayoutParams
 import com.srzone.ritu.R
 
-class SplashScreen : AppCompatActivity() {
+class SplashScreen : BaseActivity() {
     public override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
 

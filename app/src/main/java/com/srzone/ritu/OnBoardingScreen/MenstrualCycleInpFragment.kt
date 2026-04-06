@@ -58,7 +58,7 @@ class MenstrualCycleInpFragment : Fragment() {
         }
 
         activity.cyclesLength = cycleLength
-        activity.findViewById<ViewPager2>(R.id.viewPager)?.setCurrentItem(1, true)
+        activity.findViewById<ViewPager2>(R.id.viewPager)?.setCurrentItem(2, true)
     }
 
     private fun onIncrement() {

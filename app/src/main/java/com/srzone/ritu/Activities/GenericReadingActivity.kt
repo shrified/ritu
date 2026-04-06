@@ -28,7 +28,7 @@ import com.srzone.ritu.Utils.Utils
 import com.srzone.ritu.databinding.ActivityGenericReadingBinding
 import java.util.Locale
 
-class GenericReadingActivity : AppCompatActivity() {
+class GenericReadingActivity : BaseActivity() {
 
     private lateinit var binding: ActivityGenericReadingBinding
     private var heading: String? = null

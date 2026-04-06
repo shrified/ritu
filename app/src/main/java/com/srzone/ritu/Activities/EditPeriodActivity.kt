@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-class EditPeriodActivity : AppCompatActivity() {
+class EditPeriodActivity : BaseActivity() {
     private lateinit var binding: ActivityEditPeriodBinding
     private lateinit var handler: OvulationDetailsHandler
     private var selectedCalendar: Calendar = Calendar.getInstance()

@@ -24,6 +24,7 @@ import com.srzone.ritu.Model.FeaturedBlog
 import com.srzone.ritu.R
 import com.srzone.ritu.ThemesFiles.MyThemeHandler
 import com.srzone.ritu.Utils.ImageUtils
+import com.srzone.ritu.Utils.LanguageUtils
 import com.srzone.ritu.Utils.Utils
 import com.srzone.ritu.databinding.FragmentBlogsBinding
 import java.util.Locale
@@ -126,7 +127,7 @@ class BlogsFragment : Fragment() {
         val titleList = mutableListOf<String?>()
 
         val context = requireContext()
-        val lang = Locale.getDefault().language
+        val lang = LanguageUtils.getSavedLanguage(requireContext())
         val readAssetFile = Utils.readAssetFile(context, "$lang.json")
         val readAssetFile2 = Utils.readAssetFile(context, "en.json")
 
@@ -194,7 +195,7 @@ class BlogsFragment : Fragment() {
         binding?.verticalRecyclerView?.visibility = View.VISIBLE
 
         val blogCategories = mutableListOf<BlogCategory?>()
-        val lang = Locale.getDefault().language
+        val lang = LanguageUtils.getSavedLanguage(requireContext())
         val readAssetFile = Utils.readAssetFile(context, "${lang}_c.json")
         val readAssetFile2 = Utils.readAssetFile(context, "en_c.json")
 
@@ -262,7 +263,7 @@ class BlogsFragment : Fragment() {
         val titleList = mutableListOf<String?>()
 
         val context = requireContext()
-        val lang = Locale.getDefault().language
+        val lang = LanguageUtils.getSavedLanguage(requireContext())
         val readAssetFile = Utils.readAssetFile(context, "$lang.json")
         val readAssetFile2 = Utils.readAssetFile(context, "en.json")
 

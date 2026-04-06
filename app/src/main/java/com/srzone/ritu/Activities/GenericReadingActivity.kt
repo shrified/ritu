@@ -24,6 +24,7 @@ import com.srzone.ritu.Model.Blog
 import com.srzone.ritu.Model.FeaturedBlog
 import com.srzone.ritu.R
 import com.srzone.ritu.Utils.ImageUtils
+import com.srzone.ritu.Utils.LanguageUtils
 import com.srzone.ritu.Utils.Utils
 import com.srzone.ritu.databinding.ActivityGenericReadingBinding
 import java.util.Locale
@@ -114,7 +115,7 @@ class GenericReadingActivity : BaseActivity() {
 
     private fun loadHorizontalArticles() {
         val arrayList = ArrayList<FeaturedBlog>()
-        val localFile = Utils.readAssetFile(this, Locale.getDefault().language + ".json")
+        val localFile = Utils.readAssetFile(this, LanguageUtils.getSavedLanguage(this) + ".json")
         val enFile = Utils.readAssetFile(this, "en.json")
 
         if (localFile != null && enFile != null) {
@@ -145,7 +146,7 @@ class GenericReadingActivity : BaseActivity() {
 
     private fun loadGeneralArticles() {
         val arrayList = ArrayList<Blog?>()
-        val localFile = Utils.readAssetFile(this, Locale.getDefault().language + "_g.json")
+        val localFile = Utils.readAssetFile(this, LanguageUtils.getSavedLanguage(this) + "_g.json")
         val enFile = Utils.readAssetFile(this, "en_g.json")
 
         if (localFile != null && enFile != null) {

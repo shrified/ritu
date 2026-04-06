@@ -28,6 +28,7 @@ import com.srzone.ritu.Model.FeaturedBlog
 import com.srzone.ritu.Model.OvulationData
 import com.srzone.ritu.R
 import com.srzone.ritu.ThemesFiles.MyThemeHandler
+import com.srzone.ritu.Utils.LanguageUtils
 import com.srzone.ritu.Utils.MyDateUtils
 import com.srzone.ritu.Utils.OvulationCalculations
 import com.srzone.ritu.Utils.SharedPreferenceUtils
@@ -423,16 +424,16 @@ class HomeFragment : Fragment() {
     private fun showFeatureBlogs() {
         val context = context ?: return
         val blogList = mutableListOf<FeaturedBlog>()
-        val readAssetFile = Utils.readAssetFile(context, "${Locale.getDefault().language}.json")
+        val readAssetFile = Utils.readAssetFile(context, LanguageUtils.getSavedLanguage(context) + ".json")
         val readAssetFile2 = Utils.readAssetFile(context, "en.json")
-        
+
         if (readAssetFile != null && readAssetFile2 != null) {
             val minSize = minOf(readAssetFile.size, readAssetFile2.size)
             for (i in 0 until minSize) {
                 val hashMap = readAssetFile[i] ?: continue
                 val enMap = readAssetFile2[i] ?: continue
-                blogList.add(FeaturedBlog(hashMap["heading"]?.toString(), hashMap["body"]?.toString(), 
-                    Utils.lowerUnder(enMap["title"]?.toString() ?: ""), hashMap["title"]?.toString(), 
+                blogList.add(FeaturedBlog(hashMap["heading"]?.toString(), hashMap["body"]?.toString(),
+                    Utils.lowerUnder(enMap["title"]?.toString() ?: ""), hashMap["title"]?.toString(),
                     enMap["color"]?.toString(), enMap["dark"] as? Boolean ?: false))
             }
         }

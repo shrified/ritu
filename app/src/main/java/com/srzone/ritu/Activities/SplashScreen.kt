@@ -48,7 +48,7 @@ class SplashScreen : AppCompatActivity() {
             override fun run() {
                 OpenNext1()
             }
-        }, 5000)
+        }, 2000)
     }
 
     fun OpenNext1() {

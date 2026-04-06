@@ -73,7 +73,10 @@
     <string name="normal_discharge_time">Normal Discharge Time</string>
     <string name="female_reproductive">Female Reproductive</string>
     <string name="pms_symptoms">PMS Symptoms</string>
-    <string name="fertile_days">Fertile days</string>
-    <string name="safe_days">Safe days</string>
+    <string name="fertile_days">Fertile Days</string>
+    <string name="safe_days">Less Fertile Days</string>
     <string name="days">days</string>
+    <string name="in_x_days">in %d days</string>
+    <string name="cycle_day_x">Cycle day %d</string>
+    <string name="today">Today</string>
 </resources>

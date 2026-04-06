@@ -12,7 +12,7 @@ import com.srzone.ritu.Fragments.SettingsFragment
 class FragmentsAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(fragmentManager, lifecycle) {
     override fun getItemCount(): Int {
-        return 5
+        return 4
     }
 
     override fun createFragment(i: Int): Fragment {

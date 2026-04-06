@@ -33,14 +33,12 @@ import com.srzone.ritu.Utils.OvulationCalculations
 import com.srzone.ritu.Utils.SharedPreferenceUtils
 import com.srzone.ritu.Utils.Utils
 import com.srzone.ritu.databinding.FragmentHomeBinding
-import java.text.ParseException
-import java.text.SimpleDateFormat
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 import java.util.Calendar
-import java.util.Date
 import java.util.Locale
 
 class HomeFragment : Fragment() {
@@ -55,6 +53,7 @@ class HomeFragment : Fragment() {
     private val periodDates = mutableSetOf<LocalDate>()
     private val ovulationDates = mutableSetOf<LocalDate>()
     private val fertileDates = mutableSetOf<LocalDate>()
+    private val safeDates = mutableSetOf<LocalDate>()
     private var selectedDate: LocalDate = LocalDate.now()
     private val today = LocalDate.now()
 
@@ -124,9 +123,9 @@ class HomeFragment : Fragment() {
                 val isPeriod = periodDates.contains(date)
                 val isOvulation = ovulationDates.contains(date)
                 val isFertile = fertileDates.contains(date)
+                val isSafe = safeDates.contains(date)
 
                 when {
-                    // 1. Selected date always wins visually
                     isSelected -> {
                         container.textView.setBackgroundResource(R.drawable.rounded_btn_bg)
                         container.textView.backgroundTintList =
@@ -134,37 +133,38 @@ class HomeFragment : Fragment() {
                         container.textView.setTextColor(Color.WHITE)
                         container.textView.setTypeface(null, Typeface.BOLD)
                     }
-                    // 2. Period days (red/pink)
                     isPeriod -> {
                         container.textView.setBackgroundResource(R.drawable.rounded_btn_bg)
                         container.textView.backgroundTintList =
-                            ContextCompat.getColorStateList(requireContext(), R.color.next_period_front_color)
+                            ContextCompat.getColorStateList(requireContext(), R.color.next_period_front_color) // #C62828 ✅ matches legend #D4537E-ish
                         container.textView.setTextColor(Color.WHITE)
                     }
-                    // 3. Ovulation day
                     isOvulation -> {
-                        container.textView.setBackgroundResource(R.drawable.rounded_shape_bg)
+                        container.textView.setBackgroundResource(R.drawable.rounded_btn_bg)
                         container.textView.backgroundTintList =
-                            ContextCompat.getColorStateList(requireContext(), R.color.next_ovulation_bg_color)
-                        container.textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.next_ovulation_front_color))
+                            ContextCompat.getColorStateList(requireContext(), R.color.next_ovulation_bg_color) // #FFF8E1
+                        container.textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.next_ovulation_front_color)) // #33691E
                         container.dotView.visibility = View.VISIBLE
                         container.dotView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.next_ovulation_front_color))
                     }
-                    // 4. Fertile days
                     isFertile -> {
-                        container.textView.setBackgroundResource(R.drawable.rounded_shape_bg)
+                        container.textView.setBackgroundResource(R.drawable.rounded_btn_bg)
                         container.textView.backgroundTintList =
-                            ContextCompat.getColorStateList(requireContext(), R.color.fertile_days_bg_color)
-                        container.textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.fertile_days_front_color))
+                            ContextCompat.getColorStateList(requireContext(), R.color.fertile_days_bg_color) // #E8F5E9
+                        container.textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.fertile_days_front_color)) // #1976D2
                     }
-                    // 5. Today (only if not in any special category)
+                    isSafe -> {
+                        container.textView.setBackgroundResource(R.drawable.rounded_btn_bg)
+                        container.textView.backgroundTintList =
+                            ContextCompat.getColorStateList(requireContext(), R.color.safe_days_bg_color) // #F1F8E9
+                        container.textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.safe_days_front_color)) // #388E3C
+                    }
                     isToday -> {
                         container.textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.theme9))
                         container.textView.setTypeface(null, Typeface.BOLD)
                         container.dotView.visibility = View.VISIBLE
                         container.dotView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.theme9))
                     }
-                    // 6. Normal day
                     else -> {
                         container.textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_primary))
                     }
@@ -214,6 +214,9 @@ class HomeFragment : Fragment() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+
+        updateStatusCard()
+
         showFeatureBlogs()
     }
 
@@ -221,6 +224,7 @@ class HomeFragment : Fragment() {
         periodDates.clear()
         ovulationDates.clear()
         fertileDates.clear()
+        safeDates.clear()
 
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         for (dateDetails in detailsList) {
@@ -244,6 +248,17 @@ class HomeFragment : Fragment() {
                     val fertileEnd = LocalDate.parse(fertileParts[1].trim(), formatter)
                     addDateRange(fertileDates, fertileStart, fertileEnd)
                 }
+
+                val safeDaysStr = dateDetails.safeDays ?: continue
+                safeDaysStr.split(" | ").forEach { window ->
+                    val safeParts = window.trim().split(" --- ")
+                    if (safeParts.size >= 2) {
+                        val safeStart = LocalDate.parse(safeParts[0].trim(), formatter)
+                        val safeEnd = LocalDate.parse(safeParts[1].trim(), formatter)
+                        addDateRange(safeDates, safeStart, safeEnd)
+                    }
+                }
+
             } catch (e: Exception) {
                 Log.e("HomeFragment", "Error parsing date: ${e.message}")
             }
@@ -333,6 +348,35 @@ class HomeFragment : Fragment() {
         binding?.homeRecyclerView?.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = HomeRecyclerAdapter(arrayList, requireActivity())
+        }
+    }
+
+    private fun updateStatusCard() {
+        val binding = binding ?: return
+
+        // "Next period in X days"
+        val nextPeriodStr = detailsList
+            .firstOrNull { it?.nextPeriod != null && MyDateUtils.getDateFromString(it.nextPeriod!!, "-").after(Calendar.getInstance().time) }
+            ?.nextPeriod ?: ""
+
+        val daysToNextPeriod = OvulationCalculations.daysBetweenTwoDates(
+            MyDateUtils.getCurrentDate("yyyy-MM-dd"), nextPeriodStr
+        )
+        binding.nextPeriodCountTv.text = if (daysToNextPeriod > 0)
+            getString(R.string.in_x_days, daysToNextPeriod)  // "in %d days"
+        else
+            getString(R.string.today)
+
+        // "Cycle day X"
+        val lastPeriodStr = SharedPreferenceUtils.getDate(requireActivity())
+        if (lastPeriodStr.isNotEmpty()) {
+            try {
+                val lastPeriod = LocalDate.parse(lastPeriodStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                val cycleDay = ChronoUnit.DAYS.between(lastPeriod, today).toInt() % cycleLength + 1
+                binding.cyclePhaseLabelTv.text = getString(R.string.cycle_day_x, cycleDay)  // "Cycle day %d"
+            } catch (e: Exception) {
+                binding.cyclePhaseLabelTv.text = ""
+            }
         }
     }
 

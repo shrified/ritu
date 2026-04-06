@@ -180,7 +180,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="12dp"
-                app:cardBackgroundColor="#FBEAF0"
+                app:cardBackgroundColor="#F5F0FB"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="0dp"
                 app:strokeWidth="0dp"

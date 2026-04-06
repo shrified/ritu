@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -24,7 +25,6 @@ class MainActivity : AppCompatActivity() {
     var binding: ActivityMainBinding? = null
     private val tabIcons = intArrayOf(
         R.drawable.ic_home,
-        R.drawable.ic_calendar,
         R.drawable.ic_blogs,
         R.drawable.ic_settings,
         R.drawable.ic_settings_gear
@@ -60,6 +60,10 @@ class MainActivity : AppCompatActivity() {
             // Fake status bar height
             statusBarBackground.updateLayoutParams {
                 height = systemBars.top
+            }
+
+            binding!!.navigationCard.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                bottomMargin = systemBars.bottom + 12  // 12dp breathing room above gesture bar
             }
 
             // Remove bottom padding from rootView to avoid extra space under navigation card

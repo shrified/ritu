@@ -103,7 +103,8 @@ class HomeFragment : Fragment() {
         val themeColor = appTheme.themeColor
         
         binding?.let {
-            Utils.setButtonTint(it.editPeriodBtn, themeColor)
+        // we dont want our button xml to be overriden by this
+        //Utils.setButtonTint(it.editPeriodBtn, themeColor)
            // it.bannerLayout.setImageResource(appTheme.bgImg)
         }
     }

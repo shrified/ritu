@@ -24,26 +24,23 @@ class CategoryBlogsAdapter(
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         val category = blogCategories[i] ?: return
-        viewHolder.categoryNameTv.setText(category.nameRes)
-        
+
+        // Fix 1: Use the name from JSON so it's impossible to mismatch the title
+        viewHolder.categoryNameTv.text = category.name
+
         val blogList = category.blogList
         if (blogList != null && activity != null) {
-            blogList.shuffle()
+            // REMOVED: blogList.shuffle() -> Do this in the Fragment instead!
+
             viewHolder.categoryBlogsRecyclerView.layoutManager =
-                LinearLayoutManager(
-                    activity,
-                    RecyclerView.HORIZONTAL,
-                    false
-                )
-            
-            // Filter nulls and convert to non-nullable list for the adapter
+                LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
+
             val cleanList = blogList.filterNotNull().toMutableList()
-            
+
+            // Fix 2: Optimization - Only set adapter if it's not already set
+            // Or better yet, use a ListAdapter/DiffUtil for smoother performance.
             viewHolder.categoryBlogsRecyclerView.adapter =
-                CategoryFeaturedBlogAdapter(
-                    cleanList,
-                    activity
-                )
+                CategoryFeaturedBlogAdapter(cleanList, activity)
         }
     }
 

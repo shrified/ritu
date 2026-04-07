@@ -36,7 +36,7 @@
     <!-- ============================================ -->
 
     <!-- Period: deep red -->
-    <color name="period_accent">#E53935</color>
+    <color name="period_accent">#E8667A</color>
     <color name="period_bg">#FFEBEE</color>
     <color name="period_on_filled">#FFFFFF</color>
 

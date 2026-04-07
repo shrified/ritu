@@ -63,7 +63,7 @@ class MainActivity : BaseActivity() {
             }
 
             binding!!.navigationCard.updateLayoutParams<ConstraintLayout.LayoutParams> {
-                bottomMargin = systemBars.bottom + 12  // 12dp breathing room above gesture bar
+                bottomMargin = systemBars.bottom + 6  // 12dp breathing room above gesture bar
             }
 
             // Remove bottom padding from rootView to avoid extra space under navigation card
@@ -112,7 +112,7 @@ class MainActivity : BaseActivity() {
 
     private fun setUpTheme() {
         Utils.makeTransparentStatusBar(this)
-        this.binding!!.mainParentLayout.setBackground(getResources().getDrawable(this.theme!!.bgImg))
+        //this.binding!!.mainParentLayout.setBackground(getResources().getDrawable(this.theme!!.bgImg))
         this.binding!!.tabLayout.setSelectedTabIndicatorColor(getResources().getColor(this.theme!!.themeColor))
         
         // Ensure navigationCard is transparent to avoid any background bleeding

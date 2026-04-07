@@ -150,10 +150,10 @@ class HomeFragment : Fragment() {
                 when {
                     isSelected -> {
                         // Solid dark circle, white text
-                        container.textView.setBackgroundResource(R.drawable.cal_day_filled)
+                        container.textView.setBackgroundResource(R.drawable.cal_day_outlined)
                         container.textView.backgroundTintList =
                             ContextCompat.getColorStateList(requireContext(), R.color.today_accent)
-                        container.textView.setTextColor(Color.WHITE)
+                        container.textView.setTextColor(Color.BLACK)
                         container.textView.setTypeface(null, Typeface.BOLD)
                     }
                     isPeriod -> {
@@ -165,11 +165,10 @@ class HomeFragment : Fragment() {
                     }
                     isOvulation -> {
                         // Outlined purple ring, purple text
-                        container.textView.setBackgroundResource(R.drawable.cal_day_outlined)
+                        container.textView.setBackgroundResource(R.drawable.cal_day_filled)
                         container.textView.backgroundTintList =
                             ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.ovulation_accent))
-                        container.textView.setTextColor(
-                            ContextCompat.getColor(requireContext(), R.color.ovulation_accent))
+                        container.textView.setTextColor(Color.WHITE)
                         container.textView.setTypeface(null, Typeface.BOLD)
                         // Small dot below to mark ovulation peak
                         container.dotView.visibility = View.VISIBLE
@@ -178,11 +177,10 @@ class HomeFragment : Fragment() {
                     }
                     isFertile -> {
                         // Outlined teal ring, teal text
-                        container.textView.setBackgroundResource(R.drawable.cal_day_outlined)
+                        container.textView.setBackgroundResource(R.drawable.cal_day_filled)
                         container.textView.backgroundTintList =
                             ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.fertile_accent))
-                        container.textView.setTextColor(
-                            ContextCompat.getColor(requireContext(), R.color.fertile_accent))
+                        container.textView.setTextColor(Color.WHITE)
                     }
                     isToday -> {
                         // No background, just colored bold text + dot

@@ -72,7 +72,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Title"
-                    android:lineSpacingExtra="-10dp"
                     android:fontFamily="@font/app_font_bold" />
 
                 <TextView

@@ -48,7 +48,7 @@ class SplashScreen : BaseActivity() {
             override fun run() {
                 OpenNext1()
             }
-        }, 2000)
+        }, 500)
     }
 
     fun OpenNext1() {

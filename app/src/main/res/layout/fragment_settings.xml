@@ -102,33 +102,6 @@
                     android:layout_marginStart="4dp"
                     android:layout_marginTop="32dp"
                     android:fontFamily="@font/app_font_bold"
-                    android:text="@string/themes"
-                    android:textColor="@color/text_primary"
-                    android:textSize="18sp" />
-
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="2dp"
-                    app:strokeWidth="0dp">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/themesRecycler"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clipToPadding="false"
-                        android:padding="16dp" />
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="32dp"
-                    android:fontFamily="@font/app_font_bold"
                     android:text="Language / भाषा"
                     android:textColor="@color/text_primary"
                     android:textSize="18sp" />
@@ -193,6 +166,34 @@
                         </LinearLayout>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="32dp"
+                    android:fontFamily="@font/app_font_bold"
+                    android:text="@string/themes"
+                    android:textColor="@color/text_primary"
+                    android:textSize="18sp" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="2dp"
+                    app:strokeWidth="0dp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/themesRecycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:padding="16dp" />
+
+                </com.google.android.material.card.MaterialCardView>
+
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"

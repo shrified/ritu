@@ -371,11 +371,21 @@ class HomeFragment : Fragment() {
             OvulationCalculations.daysBetweenTwoDates(MyDateUtils.getCurrentDate("yyyy-MM-dd"), 
             this.fertileDays?.split(rangeRegex)?.get(0) ?: "").toString(), 
             "0", R.color.fertile_days_bg_color, R.color.fertile_days_front_color))
-        
+
         val safeDisplay = formatRange(this.safeDays, rangeRegex)
-        arrayList.add(OvulationData(R.drawable.ic_safe_days, getString(R.string.safe_days), safeDisplay, 
-            OvulationCalculations.daysBetweenTwoDates(MyDateUtils.getCurrentDate("yyyy-MM-dd"), 
-            this.safeDays?.split(rangeRegex)?.get(0) ?: "").toString(), 
+        val firstFutureSafeDate = this.safeDays
+            ?.split(" | ")
+            ?.firstOrNull { window ->
+                val start = window.trim().split(" --- ").firstOrNull()?.trim() ?: ""
+                start >= MyDateUtils.getCurrentDate("yyyy-MM-dd")
+            }
+            ?.trim()
+            ?.split(" --- ")
+            ?.firstOrNull()
+            ?.trim() ?: ""
+        arrayList.add(OvulationData(R.drawable.ic_safe_days, getString(R.string.safe_days), safeDisplay,
+            OvulationCalculations.daysBetweenTwoDates(MyDateUtils.getCurrentDate("yyyy-MM-dd"),
+                firstFutureSafeDate).toString(),
             "0", R.color.safe_days_bg_color, R.color.safe_days_front_color))
 
         binding?.homeRecyclerView?.apply {

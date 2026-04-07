@@ -5,7 +5,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFF8F9"
+        android:background="#FFF"
         android:overScrollMode="never">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,59 +14,142 @@
             android:paddingBottom="40dp">
 
             <!-- ── TOP BAR ── -->
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/backBtn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/tag_bg"
-                android:padding="10dp"
-                android:src="@drawable/ic_next_arrow"
-                android:scaleX="-1"
-                app:tint="#993556"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/screenTitle"
+            <LinearLayout
+                android:id="@+id/topBar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="16dp"
-                android:fontFamily="@font/app_font_bold"
-                android:textColor="#1A1A2E"
-                android:textSize="20sp"
-                app:layout_constraintStart_toEndOf="@id/backBtn"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/backBtn"
-                app:layout_constraintBottom_toBottomOf="@id/backBtn" />
+                android:orientation="horizontal"
+                android:background="@color/app_primary_color"
+                android:padding="16dp"
+                android:gravity="center_vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/backBtn"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_next_arrow"
+                    android:scaleX="-1"
+                    app:tint="#FFFFFF" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Education"
+                        android:fontFamily="@font/app_font"
+                        android:textColor="#B3FFFFFF"
+                        android:textSize="10sp"
+                        android:letterSpacing="0.08" />
+
+                    <TextView
+                        android:id="@+id/screenTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Chhaupadi Reality"
+                        android:fontFamily="@font/app_font_bold"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp"
+                        android:layout_marginTop="2dp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:text="🌸"
+                    android:textSize="20sp"
+                    android:gravity="center" />
+
+            </LinearLayout>
 
             <!-- ── INTRO CARD ── -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/infoCard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:layout_marginTop="20dp"
-                app:cardBackgroundColor="#FFF3E0"
-                app:cardCornerRadius="20dp"
-                app:strokeColor="#FFCC80"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:strokeColor="#F5C4D1"
                 app:strokeWidth="1dp"
-                app:layout_constraintTop_toBottomOf="@id/backBtn"
+                app:layout_constraintTop_toBottomOf="@id/topBar"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
-                <TextView
-                    android:id="@+id/infoText"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:fontFamily="@font/app_font"
-                    android:textColor="#BF360C"
-                    android:textSize="13sp"
-                    android:lineSpacingMultiplier="1.4"/>
+                    android:orientation="horizontal"
+                    android:padding="14dp"
+                    android:gravity="top">
+
+                    <TextView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="@drawable/legend_dot"
+                        android:backgroundTint="@color/ovulation_bg"
+                        android:text="💡"
+                        android:textSize="18sp"
+                        android:gravity="center" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Know the truth, break the cycle"
+                            android:fontFamily="@font/app_font_bold"
+                            android:textColor="#4B1528"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/infoText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:fontFamily="@font/app_font"
+                            android:textColor="#72243E"
+                            android:textSize="12.5sp"
+                            android:lineSpacingMultiplier="1.5" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
             </com.google.android.material.card.MaterialCardView>
+
+            <!-- ── SECTION LABEL ── -->
+            <TextView
+                android:id="@+id/sectionLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="18dp"
+                android:layout_marginTop="16dp"
+                android:text="Common myths &amp; truths"
+                android:fontFamily="@font/app_font_bold"
+                android:textColor="#993556"
+                android:textSize="10sp"
+                android:letterSpacing="0.07"
+                android:textAllCaps="true"
+                app:layout_constraintTop_toBottomOf="@id/infoCard"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <!-- ── MYTH LIST ── -->
             <LinearLayout
@@ -75,9 +158,10 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginHorizontal="16dp"
-                app:layout_constraintTop_toBottomOf="@id/infoCard"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/sectionLabel"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

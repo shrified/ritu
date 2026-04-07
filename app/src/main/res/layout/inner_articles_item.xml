@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:text="heading"
             android:maxLines="2"
-            android:lineSpacingExtra="-10dp"
+            android:lineSpacingMultiplier="1.1"
             android:fontFamily="@font/app_font_bold" />
 
         <TextView
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:text="body"
             android:maxLines="2"
-            android:lineSpacingExtra="-10dp"
+            android:lineSpacingMultiplier="1.1"
             android:fontFamily="@font/app_font_bold"
             android:layout_marginStart="5dp" />
     </LinearLayout>

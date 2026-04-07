@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="12dp"
-    app:cardCornerRadius="20dp"
+    android:layout_marginBottom="10dp"
+    app:cardCornerRadius="16dp"
     app:cardBackgroundColor="#FFFFFF"
     app:strokeColor="#F0E6EA"
     app:strokeWidth="1dp">
@@ -12,28 +13,108 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="vertical">
 
-        <!-- Myth -->
-        <TextView
-            android:id="@+id/mythTv"
+        <!-- ── MYTH HEADER (pink tinted) ── -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#C62828"
-            android:textSize="13sp"
-            android:fontFamily="@font/app_font_bold"
-            android:paddingBottom="6dp"/>
+            android:orientation="horizontal"
+            android:background="#FBEAF0"
+            android:padding="10dp"
+            android:gravity="top">
 
-        <!-- Truth -->
-        <TextView
-            android:id="@+id/truthTv"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Myth"
+                android:fontFamily="@font/app_font_bold"
+                android:textColor="#FFFFFF"
+                android:textSize="9sp"
+                android:letterSpacing="0.06"
+                android:textAllCaps="true"
+                android:background="@drawable/tag_bg"
+                android:backgroundTint="#993556"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="3dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="1dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/mythTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/app_font_bold"
+                    android:textColor="#72243E"
+                    android:textSize="12.5sp"
+                    android:lineSpacingMultiplier="1.4" />
+
+                <TextView
+                    android:id="@+id/mythNeTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/app_font"
+                    android:textColor="#993556"
+                    android:textSize="11.5sp"
+                    android:lineSpacingMultiplier="1.4" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- ── TRUTH BODY (white) ── -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#4B1528"
-            android:textSize="13sp"
-            android:fontFamily="@font/app_font"
-            android:lineSpacingMultiplier="1.4"/>
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:gravity="top">
+
+            <!-- Checkmark circle -->
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/legend_dot"
+                android:padding="4dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="1dp"
+                app:tint="#3B6D11" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/truthTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/app_font"
+                    android:textColor="#3d3d3a"
+                    android:textSize="12.5sp"
+                    android:lineSpacingMultiplier="1.55" />
+
+                <TextView
+                    android:id="@+id/truthNeTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/app_font"
+                    android:textColor="#5F5E5A"
+                    android:textSize="11.5sp"
+                    android:lineSpacingMultiplier="1.5" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 

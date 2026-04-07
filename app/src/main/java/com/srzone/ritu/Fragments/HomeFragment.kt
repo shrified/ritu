@@ -1,6 +1,7 @@
 package com.srzone.ritu.Fragments
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -103,7 +104,7 @@ class HomeFragment : Fragment() {
         
         binding?.let {
             Utils.setButtonTint(it.editPeriodBtn, themeColor)
-            it.bannerLayout.setImageResource(appTheme.bgImg)
+           // it.bannerLayout.setImageResource(appTheme.bgImg)
         }
     }
 
@@ -148,41 +149,62 @@ class HomeFragment : Fragment() {
                             ContextCompat.getColorStateList(requireContext(), R.color.theme9)
                         container.textView.setTextColor(Color.WHITE)
                         container.textView.setTypeface(null, Typeface.BOLD)
+                        container.dotView.visibility = View.GONE
                     }
                     isPeriod -> {
                         container.textView.setBackgroundResource(R.drawable.rounded_btn_bg)
                         container.textView.backgroundTintList =
-                            ContextCompat.getColorStateList(requireContext(), R.color.next_period_front_color) // #C62828 ✅ matches legend #D4537E-ish
+                            ContextCompat.getColorStateList(requireContext(), R.color.next_period_front_color)
                         container.textView.setTextColor(Color.WHITE)
+                        container.textView.setTypeface(null, Typeface.NORMAL)
+                        container.dotView.visibility = View.GONE
                     }
                     isOvulation -> {
                         container.textView.setBackgroundResource(R.drawable.rounded_btn_bg)
+                        // Soft purple pill for ovulation
                         container.textView.backgroundTintList =
-                            ContextCompat.getColorStateList(requireContext(), R.color.next_ovulation_bg_color) // #FFF8E1
-                        container.textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.next_ovulation_front_color)) // #33691E
+                            ColorStateList.valueOf(Color.parseColor("#EDE7F6"))
+                        container.textView.setTextColor(Color.parseColor("#512DA8"))
+                        container.textView.setTypeface(null, Typeface.BOLD)
                         container.dotView.visibility = View.VISIBLE
-                        container.dotView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.next_ovulation_front_color))
+                        container.dotView.setBackgroundColor(Color.parseColor("#7F77DD"))
                     }
                     isFertile -> {
                         container.textView.setBackgroundResource(R.drawable.rounded_btn_bg)
+                        // Light green pill — matches brand
                         container.textView.backgroundTintList =
-                            ContextCompat.getColorStateList(requireContext(), R.color.fertile_days_bg_color) // #E8F5E9
-                        container.textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.fertile_days_front_color)) // #1976D2
+                            ContextCompat.getColorStateList(requireContext(), R.color.fertile_days_bg_color)
+                        container.textView.setTextColor(
+                            ContextCompat.getColor(requireContext(), R.color.theme9))
+                        container.textView.setTypeface(null, Typeface.NORMAL)
+                        container.dotView.visibility = View.GONE
                     }
                     isSafe -> {
                         container.textView.setBackgroundResource(R.drawable.rounded_btn_bg)
                         container.textView.backgroundTintList =
-                            ContextCompat.getColorStateList(requireContext(), R.color.safe_days_bg_color) // #F1F8E9
-                        container.textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.safe_days_front_color)) // #388E3C
+                            ContextCompat.getColorStateList(requireContext(), R.color.safe_days_bg_color)
+                        container.textView.setTextColor(
+                            ContextCompat.getColor(requireContext(), R.color.safe_days_front_color))
+                        container.textView.setTypeface(null, Typeface.NORMAL)
+                        container.dotView.visibility = View.GONE
                     }
                     isToday -> {
-                        container.textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.theme9))
+                        container.textView.background = null
+                        container.textView.backgroundTintList = null
+                        container.textView.setTextColor(
+                            ContextCompat.getColor(requireContext(), R.color.theme9))
                         container.textView.setTypeface(null, Typeface.BOLD)
                         container.dotView.visibility = View.VISIBLE
-                        container.dotView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.theme9))
+                        container.dotView.setBackgroundColor(
+                            ContextCompat.getColor(requireContext(), R.color.theme9))
                     }
                     else -> {
-                        container.textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_primary))
+                        container.textView.background = null
+                        container.textView.backgroundTintList = null
+                        container.textView.setTextColor(
+                            ContextCompat.getColor(requireContext(), R.color.text_primary))
+                        container.textView.setTypeface(null, Typeface.NORMAL)
+                        container.dotView.visibility = View.GONE
                     }
                 }
 

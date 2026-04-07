@@ -6,8 +6,8 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
-import com.srzone.ritu.Data.SymptomData
-import com.srzone.ritu.Data.SymptomData.Symptom
+import com.srzone.ritu.data.SymptomData
+import com.srzone.ritu.data.SymptomData.Symptom
 import com.srzone.ritu.R
 import com.srzone.ritu.Utils.LanguageUtils
 import com.srzone.ritu.databinding.ActivitySymptomCheckerBinding

@@ -1,4 +1,4 @@
-package com.srzone.ritu.Data
+package com.srzone.ritu.data
 
 object SymptomData {
 

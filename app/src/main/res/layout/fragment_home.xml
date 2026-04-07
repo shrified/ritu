@@ -6,29 +6,259 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFF8F9"
+        android:background="@color/window_background"
         android:fillViewport="true"
         android:overScrollMode="never">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="40dp">
+            android:paddingBottom="100dp">
 
-            <!-- ── TOP BAR ── -->
-            <TextView
-                android:id="@+id/appTitle"
-                android:layout_width="wrap_content"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/heroCard"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="28dp"
-                android:fontFamily="@font/app_font_bold"
-                android:text="@string/app_name"
-                android:textColor="#1A1A2E"
-                android:textSize="26sp"
-                android:letterSpacing="0.01"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="@color/theme9"
+                app:cardCornerRadius="22dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="0dp"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                    <!-- Decorative blob -->
+                    <View
+                        android:id="@+id/blobCircle"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/legend_dot"
+                        android:backgroundTint="#1AFFFFFF"
+                        android:translationX="28dp"
+                        android:translationY="-28dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <!-- Greeting -->
+                    <TextView
+                        android:id="@+id/greetingTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/greeting_namaste"
+                        android:textSize="12sp"
+                        android:textColor="#AAFFFFFF"
+                        android:fontFamily="@font/app_font"
+                        android:letterSpacing="0.02"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <!-- App name + cycle pill on same row -->
+                    <TextView
+                        android:id="@+id/appTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="@font/app_font_bold"
+                        android:text="@string/app_name"
+                        android:textColor="#FFFFFF"
+                        android:textSize="22sp"
+                        android:letterSpacing="0.01"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/cyclePhasePill"
+                        app:layout_constraintTop_toBottomOf="@id/greetingTv"
+                        app:layout_constraintBottom_toBottomOf="@id/cyclePhasePill" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cyclePhasePill"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="#1AFFFFFF"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="#33FFFFFF"
+                        app:strokeWidth="1dp"
+                        app:layout_constraintTop_toBottomOf="@id/greetingTv"
+                        app:layout_constraintEnd_toEndOf="parent">
+
+                        <TextView
+                            android:id="@+id/cyclePhaseLabelTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:text="Cycle day 14"
+                            android:textSize="11sp"
+                            android:textColor="#FFFFFF"
+                            android:fontFamily="@font/app_font_bold"
+                            android:letterSpacing="0.04" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Divider -->
+                    <View
+                        android:id="@+id/heroDivider"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="16dp"
+                        android:background="#22FFFFFF"
+                        app:layout_constraintTop_toBottomOf="@id/appTitle"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <!-- Condition icon -->
+                    <ImageView
+                        android:id="@+id/conditionImg"
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:layout_marginTop="12dp"
+                        app:layout_constraintTop_toBottomOf="@id/heroDivider"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@id/nextPeriodBox"
+                        tools:src="@drawable/high_chances" />
+
+                    <!-- Condition label + subtitle -->
+                    <TextView
+                        android:id="@+id/conditionTv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:fontFamily="@font/app_font_bold"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        app:layout_constraintTop_toTopOf="@id/conditionImg"
+                        app:layout_constraintStart_toEndOf="@id/conditionImg"
+                        app:layout_constraintEnd_toStartOf="@id/nextPeriodBox"
+                        tools:text="Fertile Window" />
+
+                    <TextView
+                        android:id="@+id/chancestv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="@font/app_font"
+                        android:text="@string/chances_of_pregnancy"
+                        android:textColor="#AAFFFFFF"
+                        android:textSize="11sp"
+                        app:layout_constraintTop_toBottomOf="@id/conditionTv"
+                        app:layout_constraintStart_toEndOf="@id/conditionImg"
+                        app:layout_constraintEnd_toStartOf="@id/nextPeriodBox" />
+
+                    <!-- Next period box -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/nextPeriodBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rounded_btn_bg"
+                        android:backgroundTint="#1AFFFFFF"
+                        android:padding="8dp"
+                        app:layout_constraintTop_toTopOf="@id/conditionImg"
+                        app:layout_constraintBottom_toBottomOf="@id/conditionImg"
+                        app:layout_constraintEnd_toEndOf="parent">
+
+                        <TextView
+                            android:id="@+id/nextPeriodLabelTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Next period"
+                            android:textSize="10sp"
+                            android:textColor="#AAFFFFFF"
+                            android:fontFamily="@font/app_font"
+                            android:gravity="center"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent" />
+
+                        <TextView
+                            android:id="@+id/nextPeriodCountTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="in 14 days"
+                            android:textSize="12sp"
+                            android:textColor="#FFFFFF"
+                            android:fontFamily="@font/app_font_bold"
+                            android:gravity="center"
+                            app:layout_constraintTop_toBottomOf="@id/nextPeriodLabelTv"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <!-- Edit period button -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/editPeriodBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_marginTop="12dp"
+                        android:fontFamily="@font/app_font_bold"
+                        android:paddingStart="18dp"
+                        android:paddingEnd="18dp"
+                        android:text="@string/edit_period"
+                        android:textAllCaps="false"
+                        android:textSize="12sp"
+                        app:backgroundTint="#FFFFFF"
+                        android:textColor="#000"
+                        app:cornerRadius="18dp"
+                        app:strokeWidth="0dp"
+                        app:layout_constraintTop_toBottomOf="@id/conditionImg"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ── IRREGULARITY BANNER ── -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/irregularityCard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                app:cardBackgroundColor="#FFF8E1"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#FFE082"
+                app:strokeWidth="1dp"
+                app:layout_constraintTop_toBottomOf="@id/heroCard"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="14dp"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_feedback"
+                        app:tint="#F57F17" />
+
+                    <TextView
+                        android:id="@+id/irregularityTv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="10dp"
+                        android:fontFamily="@font/app_font"
+                        android:textColor="#5D4037"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- ── CALENDAR CARD ── -->
             <com.google.android.material.card.MaterialCardView
@@ -37,13 +267,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="10dp"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="0dp"
-                app:strokeColor="#F0E6EA"
+                app:strokeColor="#E8F5E9"
                 app:strokeWidth="1dp"
-                app:layout_constraintTop_toBottomOf="@id/appTitle"
+                app:layout_constraintTop_toBottomOf="@id/irregularityCard"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
@@ -59,7 +289,7 @@
                         android:layout_marginTop="20dp"
                         android:fontFamily="@font/app_font_bold"
                         android:textColor="#1A1A2E"
-                        android:textSize="16sp"
+                        android:textSize="15sp"
                         android:letterSpacing="0.01"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -80,324 +310,100 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:layout_marginTop="12dp"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/calendarView">
 
-                        <!-- Period legend dot -->
-                        <View
-                            android:layout_width="8dp"
-                            android:layout_height="8dp"
+                        <View android:layout_width="8dp" android:layout_height="8dp"
                             android:layout_gravity="center_vertical"
                             android:background="@drawable/legend_dot"
-                            android:backgroundTint="#D4537E"
+                            android:backgroundTint="#E53935"
                             android:layout_marginEnd="4dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:text="Period"
-                            android:textSize="11sp"
-                            android:textColor="#993556"
-                            android:fontFamily="@font/app_font"
+                            android:text="Period" android:textSize="11sp"
+                            android:textColor="#E53935" android:fontFamily="@font/app_font"
                             android:layout_marginEnd="14dp" />
 
-                        <!-- Fertile legend dot -->
-                        <View
-                            android:layout_width="8dp"
-                            android:layout_height="8dp"
+                        <View android:layout_width="8dp" android:layout_height="8dp"
                             android:layout_gravity="center_vertical"
                             android:background="@drawable/legend_dot"
-                            android:backgroundTint="#1D9E75"
+                            android:backgroundTint="@color/theme9"
                             android:layout_marginEnd="4dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:text="Fertile"
-                            android:textSize="11sp"
-                            android:textColor="#0F6E56"
-                            android:fontFamily="@font/app_font"
+                            android:text="Fertile" android:textSize="11sp"
+                            android:textColor="@color/theme9" android:fontFamily="@font/app_font"
                             android:layout_marginEnd="14dp" />
 
-                        <!-- Ovulation legend dot -->
-                        <View
-                            android:layout_width="8dp"
-                            android:layout_height="8dp"
+                        <View android:layout_width="8dp" android:layout_height="8dp"
                             android:layout_gravity="center_vertical"
                             android:background="@drawable/legend_dot"
                             android:backgroundTint="#7F77DD"
                             android:layout_marginEnd="4dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:text="Ovulation"
-                            android:textSize="11sp"
-                            android:textColor="#534AB7"
-                            android:fontFamily="@font/app_font"
+                            android:text="Ovulation" android:textSize="11sp"
+                            android:textColor="#534AB7" android:fontFamily="@font/app_font"
                             android:layout_marginEnd="14dp" />
 
-                        <!-- Safe legend dot -->
-                        <View
-                            android:layout_width="8dp"
-                            android:layout_height="8dp"
+                        <View android:layout_width="8dp" android:layout_height="8dp"
                             android:layout_gravity="center_vertical"
                             android:background="@drawable/legend_dot"
-                            android:backgroundTint="#378ADD"
+                            android:backgroundTint="#64B5F6"
                             android:layout_marginEnd="4dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:text="Safe"
-                            android:textSize="11sp"
-                            android:textColor="#185FA5"
-                            android:fontFamily="@font/app_font" />
+                            android:text="Safe" android:textSize="11sp"
+                            android:textColor="#1976D2" android:fontFamily="@font/app_font" />
 
                     </LinearLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- ── STATUS / BANNER CARD (replaces old bannerLayout + conditionImg + conditionTv) ── -->
-            <!--
-                bannerLayout  → ImageView kept as full bleed background, same ID
-                conditionImg  → centred icon on top of the tinted surface
-                conditionTv   → label below icon
-                editPeriodBtn → MaterialButton, same ID
-            -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/statusCard"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="12dp"
-                app:cardBackgroundColor="#F5F0FB"
-                app:cardCornerRadius="24dp"
-                app:cardElevation="0dp"
-                app:strokeWidth="0dp"
-                app:layout_constraintTop_toBottomOf="@id/calendarCard"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="20dp">
-
-                    <!--
-                        bannerLayout: kept as ImageView with same ID.
-                        It sits behind everything (z-order = first child).
-                        Kotlin sets the src via appTheme.bgImg — still works.
-                        We make it fill the card and semi-transparent so the
-                        pink background shows through nicely.
-                    -->
-                    <ImageView
-                        android:id="@+id/bannerLayout"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:scaleType="centerCrop"
-                        android:alpha="0.08"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        tools:src="@color/app_secondary_color" />
-
-                    <!-- Cycle phase label -->
-                    <TextView
-                        android:id="@+id/cyclePhaseLabelTv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Cycle day 14"
-                        android:textSize="12sp"
-                        android:textColor="#993556"
-                        android:fontFamily="@font/app_font_bold"
-                        android:letterSpacing="0.04"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
-
-                    <!-- conditionImg: large icon, same ID -->
-                    <ImageView
-                        android:id="@+id/conditionImg"
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
-                        android:layout_marginTop="10dp"
-                        app:layout_constraintTop_toBottomOf="@id/cyclePhaseLabelTv"
-                        app:layout_constraintStart_toStartOf="parent"
-                        tools:src="@drawable/high_chances" />
-
-                    <!-- conditionTv: same ID, now larger & left-aligned -->
-                    <TextView
-                        android:id="@+id/conditionTv"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="14dp"
-                        android:fontFamily="@font/app_font_bold"
-                        android:textColor="#4B1528"
-                        android:textSize="20sp"
-                        android:lineSpacingMultiplier="1.1"
-                        app:layout_constraintTop_toTopOf="@id/conditionImg"
-                        app:layout_constraintStart_toEndOf="@id/conditionImg"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        tools:text="Fertile window" />
-
-                    <TextView
-                        android:id="@+id/chancestv"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="14dp"
-                        android:layout_marginTop="2dp"
-                        android:fontFamily="@font/app_font"
-                        android:text="@string/chances_of_pregnancy"
-                        android:textColor="#993556"
-                        android:textSize="13sp"
-                        app:layout_constraintTop_toBottomOf="@id/conditionTv"
-                        app:layout_constraintStart_toEndOf="@id/conditionImg"
-                        app:layout_constraintEnd_toEndOf="parent" />
-
-                    <!-- Divider -->
-                    <View
-                        android:id="@+id/statusDivider"
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="18dp"
-                        android:background="#F0D0DA"
-                        app:layout_constraintTop_toBottomOf="@id/conditionImg"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent" />
-
-                    <!-- Next period chip row -->
-                    <TextView
-                        android:id="@+id/nextPeriodLabelTv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="14dp"
-                        android:text="Next period"
-                        android:textSize="12sp"
-                        android:textColor="#993556"
-                        android:fontFamily="@font/app_font"
-                        app:layout_constraintTop_toBottomOf="@id/statusDivider"
-                        app:layout_constraintStart_toStartOf="parent" />
-
-                    <TextView
-                        android:id="@+id/nextPeriodCountTv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="14dp"
-                        android:text="in 14 days"
-                        android:textSize="13sp"
-                        android:textColor="#4B1528"
-                        android:fontFamily="@font/app_font_bold"
-                        app:layout_constraintTop_toBottomOf="@id/statusDivider"
-                        app:layout_constraintEnd_toEndOf="parent" />
-
-                    <!-- editPeriodBtn: same ID, restyled -->
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/editPeriodBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="44dp"
-                        android:layout_marginTop="16dp"
-                        android:fontFamily="@font/app_font_bold"
-                        android:paddingStart="20dp"
-                        android:paddingEnd="20dp"
-                        android:text="@string/edit_period"
-                        android:textAllCaps="false"
-                        android:textSize="13sp"
-                        android:backgroundTint="@color/theme9"
-                        app:backgroundTint="@null"
-                        app:strokeColor="#fff"
-                        app:strokeWidth="1dp"
-                        android:textColor="#fff"
-                        app:cornerRadius="22dp"
-                        app:iconTint="#993556"
-                        app:layout_constraintTop_toBottomOf="@id/nextPeriodLabelTv"
-                        app:layout_constraintStart_toStartOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/irregularityCard"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="12dp"
-                android:visibility="gone"
-                app:cardBackgroundColor="#FFF8E1"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
-                app:strokeWidth="0dp"
-                app:layout_constraintTop_toBottomOf="@id/statusCard"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="16dp"
-                    android:gravity="center_vertical">
-
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:src="@drawable/ic_feedback"
-                        app:tint="#F57F17" />
-
-                    <TextView
-                        android:id="@+id/irregularityTv"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="12dp"
-                        android:fontFamily="@font/app_font"
-                        android:textColor="#5D4037"
-                        android:textSize="13sp" />
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-
-            <!-- ── OVULATION / FERTILE / SAFE DATA CARDS ── -->
-            <!-- homeRecyclerView: same ID, used by HomeRecyclerAdapter -->
+            <!-- ── DATA CARDS RECYCLER ── -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/homeRecyclerView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="10dp"
                 android:nestedScrollingEnabled="false"
                 android:overScrollMode="never"
-                app:layout_constraintTop_toBottomOf="@id/irregularityCard"
+                app:layout_constraintTop_toBottomOf="@id/calendarCard"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
-            <!-- ── SOS CARD ── -->
+            <!-- ── QUICK ACTIONS SECTION TITLE ── -->
+            <TextView
+                android:id="@+id/quickActionsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/app_font_bold"
+                android:text="Quick Actions"
+                android:textColor="#1A1A2E"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/homeRecyclerView" />
+
+            <!-- ── SOS + SYMPTOM CHECKER ROW ── -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/sosCard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="12dp"
-                app:cardBackgroundColor="#FFF0F3"
+                android:layout_marginEnd="6dp"
+                android:layout_marginTop="10dp"
+                app:cardBackgroundColor="#FFF0F0"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="0dp"
-                app:strokeColor="#F5C0CC"
+                app:strokeColor="#FFCDD2"
                 app:strokeWidth="1dp"
-                app:layout_constraintTop_toBottomOf="@id/homeRecyclerView"
+                app:layout_constraintTop_toBottomOf="@id/quickActionsTitle"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintEnd_toStartOf="@id/symptomCheckerCard">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -406,65 +412,49 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/sosIcon"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:src="@drawable/ic_feedback"
                         android:background="@drawable/tag_bg"
-                        android:padding="9dp"
+                        android:padding="8dp"
                         app:tint="#C62828"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/sosTitleTv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="10dp"
                         android:fontFamily="@font/app_font_bold"
-                        android:text="Period Pain Help"
+                        android:text="Period Pain"
                         android:textColor="#4B1528"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toEndOf="@id/sosIcon"
-                        app:layout_constraintEnd_toStartOf="@id/sosChevron"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toTopOf="@id/sosSubtitleTv" />
+                        android:textSize="13sp"
+                        app:layout_constraintTop_toBottomOf="@id/sosIcon"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
 
                     <TextView
                         android:id="@+id/sosSubtitleTv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="2dp"
                         android:fontFamily="@font/app_font"
-                        android:text="Remedies for cramps &amp; pain"
+                        android:text="Remedies &amp; help"
                         android:textColor="#993556"
-                        android:textSize="12sp"
-                        app:layout_constraintStart_toEndOf="@id/sosIcon"
-                        app:layout_constraintEnd_toStartOf="@id/sosChevron"
+                        android:textSize="11sp"
                         app:layout_constraintTop_toBottomOf="@id/sosTitleTv"
-                        app:layout_constraintBottom_toBottomOf="parent" />
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/sosChevron"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/ic_next_arrow"
-                        app:tint="#C4A0B0"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- ── SYMPTOM CHECKER CARD ── -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/symptomCheckerCard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="6dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="10dp"
                 app:cardBackgroundColor="#F0F4FF"
@@ -472,8 +462,8 @@
                 app:cardElevation="0dp"
                 app:strokeColor="#C5CFFB"
                 app:strokeWidth="1dp"
-                app:layout_constraintTop_toBottomOf="@id/sosCard"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/quickActionsTitle"
+                app:layout_constraintStart_toEndOf="@id/sosCard"
                 app:layout_constraintEnd_toEndOf="parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -483,152 +473,120 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/symptomIcon"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:src="@drawable/ic_add_dotted"
                         android:background="@drawable/tag_bg"
-                        android:padding="9dp"
+                        android:padding="8dp"
                         app:tint="#3949AB"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/symptomTitleTv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="10dp"
                         android:fontFamily="@font/app_font_bold"
-                        android:text="Check Your Symptoms"
+                        android:text="Symptoms"
                         android:textColor="#1A237E"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toEndOf="@id/symptomIcon"
-                        app:layout_constraintEnd_toStartOf="@id/symptomChevron"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toTopOf="@id/symptomSubtitleTv" />
+                        android:textSize="13sp"
+                        app:layout_constraintTop_toBottomOf="@id/symptomIcon"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
 
                     <TextView
                         android:id="@+id/symptomSubtitleTv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="2dp"
                         android:fontFamily="@font/app_font"
-                        android:text="Understand what your body is telling you"
+                        android:text="Check &amp; understand"
                         android:textColor="#5C6BC0"
-                        android:textSize="12sp"
-                        app:layout_constraintStart_toEndOf="@id/symptomIcon"
-                        app:layout_constraintEnd_toStartOf="@id/symptomChevron"
+                        android:textSize="11sp"
                         app:layout_constraintTop_toBottomOf="@id/symptomTitleTv"
-                        app:layout_constraintBottom_toBottomOf="parent" />
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/symptomChevron"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/ic_next_arrow"
-                        app:tint="#C4A0B0"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- ── LOG SYMPTOMS / NOTES CARD (notesTv MaterialCardView, same ID) ── -->
+            <!-- ── LOG NOTES + CHHAUPADI ROW ── -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/notesTv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="12dp"
-                app:cardBackgroundColor="#FFFFFF"
+                android:layout_marginEnd="6dp"
+                android:layout_marginTop="10dp"
+                app:cardBackgroundColor="#F1F8F1"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="0dp"
-                app:strokeColor="#F0E6EA"
+                app:strokeColor="#C8E6C9"
                 app:strokeWidth="1dp"
-                app:layout_constraintTop_toBottomOf="@id/symptomCheckerCard"
+                app:layout_constraintTop_toBottomOf="@id/sosCard"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintEnd_toStartOf="@id/chhaupadiCard">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp">
 
-                    <!-- Icon chip -->
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/addIcon"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:src="@drawable/ic_edit"
                         android:background="@drawable/tag_bg"
-                        android:padding="10dp"
+                        android:padding="9dp"
                         app:tint="@color/app_primary_color"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/logTitleTv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="10dp"
                         android:fontFamily="@font/app_font_bold"
                         android:text="@string/log_your_symptoms"
                         android:textColor="#1A1A2E"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toEndOf="@id/addIcon"
-                        app:layout_constraintEnd_toStartOf="@id/chevronIcon"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toTopOf="@id/logSubtitleTv" />
+                        android:textSize="13sp"
+                        app:layout_constraintTop_toBottomOf="@id/addIcon"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
 
                     <TextView
                         android:id="@+id/logSubtitleTv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="2dp"
                         android:fontFamily="@font/app_font"
-                        android:text="Track mood, flow &amp; more"
-                        android:textColor="#993556"
-                        android:textSize="12sp"
-                        app:layout_constraintStart_toEndOf="@id/addIcon"
-                        app:layout_constraintEnd_toStartOf="@id/chevronIcon"
+                        android:text="Mood, flow &amp; more"
+                        android:textColor="@color/app_primary_variant"
+                        android:textSize="11sp"
                         app:layout_constraintTop_toBottomOf="@id/logTitleTv"
-                        app:layout_constraintBottom_toBottomOf="parent" />
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/chevronIcon"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/ic_next_arrow"
-                        app:tint="#C4A0B0"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Chhaupadi Awareness -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/chhaupadiCard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="6dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="10dp"
                 app:cardBackgroundColor="#FFF3E0"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="0dp"
                 app:strokeColor="#FFCC80"
                 app:strokeWidth="1dp"
-                app:layout_constraintTop_toBottomOf="@id/notesTv"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/symptomCheckerCard"
+                app:layout_constraintStart_toEndOf="@id/notesTv"
                 app:layout_constraintEnd_toEndOf="parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -638,52 +596,40 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/chhaupadiIcon"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:src="@drawable/ic_discover"
                         android:background="@drawable/tag_bg"
-                        android:padding="9dp"
+                        android:padding="8dp"
                         app:tint="#E65100"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/chhaupadiTitleTv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="10dp"
                         android:fontFamily="@font/app_font_bold"
-                        android:text="Chhaupadi Truth"
+                        android:text="Chhaupadi"
                         android:textColor="#BF360C"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toEndOf="@id/chhaupadiIcon"
-                        app:layout_constraintEnd_toStartOf="@id/chhaupadiChevron"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:textSize="13sp"
+                        app:layout_constraintTop_toBottomOf="@id/chhaupadiIcon"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
 
                     <TextView
                         android:id="@+id/chhaupadiSubtitleTv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="2dp"
                         android:fontFamily="@font/app_font"
-                        android:text="Break myths about periods"
+                        android:text="Break the myths"
                         android:textColor="#E65100"
-                        android:textSize="12sp"
-                        app:layout_constraintStart_toEndOf="@id/chhaupadiIcon"
-                        app:layout_constraintEnd_toStartOf="@id/chhaupadiChevron"
+                        android:textSize="11sp"
                         app:layout_constraintTop_toBottomOf="@id/chhaupadiTitleTv"
-                        app:layout_constraintBottom_toBottomOf="parent" />
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/chhaupadiChevron"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/ic_next_arrow"
-                        app:tint="#C4A0B0"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -698,11 +644,10 @@
                 android:fontFamily="@font/app_font_bold"
                 android:text="@string/recommended"
                 android:textColor="#1A1A2E"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/chhaupadiCard" />
+                app:layout_constraintTop_toBottomOf="@id/notesTv" />
 
-            <!-- articlesRecycler: same ID, FeaturedBlogAdapter attached by Kotlin -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/articlesRecycler"
                 android:layout_width="0dp"

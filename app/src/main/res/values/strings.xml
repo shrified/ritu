@@ -99,5 +99,6 @@
     <string name="btn_next">Next →</string>
     <string name="btn_see_results">See Results</string>
     <string name="btn_start_over">Check another symptom</string>
+    <string name="greeting_namaste">Namaste 🙏</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

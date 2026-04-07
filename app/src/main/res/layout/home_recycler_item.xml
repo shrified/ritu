@@ -6,115 +6,55 @@
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="16dp"
-    android:layout_marginVertical="5dp"
-    app:cardBackgroundColor="#FFFFFF"
+    android:layout_margin="6dp"
+    app:cardBackgroundColor="#F7F7F7"
     app:cardCornerRadius="20dp"
     app:cardElevation="0dp"
-    app:strokeColor="#E8F5E9"
-    app:strokeWidth="1dp">
+    app:strokeWidth="0dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingTop="14dp"
-        android:paddingBottom="14dp">
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <!-- Left accent bar -->
-        <View
-            android:id="@+id/accentBar"
-            android:layout_width="3dp"
-            android:layout_height="0dp"
-            android:background="@drawable/rounded_btn_bg"
-            android:backgroundTint="@color/theme9"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+        <ImageView
+            android:id="@+id/iconImg"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/logo"
+            app:tint="@color/app_primary_color" />
 
-        <!-- Icon container -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/iconContainer"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:layout_marginStart="12dp"
-            app:cardBackgroundColor="@color/app_secondary_color"
-            app:cardCornerRadius="14dp"
-            app:cardElevation="0dp"
-            app:strokeWidth="0dp"
-            app:layout_constraintStart_toEndOf="@id/accentBar"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
-
-            <ImageView
-                android:id="@+id/iconImg"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="11dp"
-                android:src="@drawable/logo"
-                app:tint="@color/app_primary_color" />
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Title + subtitle -->
         <TextView
             android:id="@+id/headingTv"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
-            android:fontFamily="@font/app_font_bold"
-            android:textColor="@color/text_primary"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toStartOf="@id/dateContainer"
-            app:layout_constraintStart_toEndOf="@id/iconContainer"
-            app:layout_constraintTop_toTopOf="@id/iconContainer"
-            app:layout_constraintBottom_toTopOf="@id/daysLeftTv"
+            android:layout_marginTop="14dp"
+            android:fontFamily="@font/app_font"
+            android:textColor="#9E9E9E"
+            android:textSize="11sp"
             tools:text="Next Period" />
 
         <TextView
-            android:id="@+id/daysLeftTv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="2dp"
-            android:fontFamily="@font/app_font"
-            android:textColor="@color/text_secondary"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@id/iconContainer"
-            app:layout_constraintEnd_toStartOf="@id/dateContainer"
-            app:layout_constraintTop_toBottomOf="@id/headingTv"
-            app:layout_constraintBottom_toBottomOf="@id/iconContainer"
-            tools:text="5 days away" />
-
-        <!-- Date chip on right -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/dateContainer"
+            android:id="@+id/dateTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/app_secondary_color"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="0dp"
-            app:strokeWidth="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            android:layout_marginTop="2dp"
+            android:fontFamily="@font/app_font_bold"
+            android:textColor="#111111"
+            android:textSize="17sp"
+            tools:text="Sep 19" />
 
-            <TextView
-                android:id="@+id/dateTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:fontFamily="@font/app_font_bold"
-                android:textColor="@color/theme9"
-                android:textSize="13sp"
-                android:gravity="center"
-                tools:text="Apr 20" />
+        <TextView
+            android:id="@+id/daysLeftTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/app_font"
+            android:textColor="@color/theme9"
+            android:textSize="11sp"
+            tools:text="28 days left" />
 
-        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

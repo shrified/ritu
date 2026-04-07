@@ -2,21 +2,21 @@
 <resources>
     <color name="black">#1A1A1A</color>
     <color name="white">#FFFFFF</color>
-    
+
     <!-- Primary Brand Colors -->
     <color name="app_primary_color">#4CAF50</color>
     <color name="app_primary_variant">#2E7D32</color>
     <color name="app_secondary_color">#F1F8F1</color>
-    
+
     <!-- Backgrounds -->
     <color name="window_background">#FFFFFF</color>
     <color name="surface_background">#FAFAFA</color>
-    
+
     <!-- Text Colors -->
     <color name="text_primary">#1A1A1A</color>
     <color name="text_secondary">#757575</color>
     <color name="text_hint">#BDBDBD</color>
-    
+
     <!-- Status Colors -->
     <color name="color_success">#4CAF50</color>
     <color name="color_error">#F44336</color>
@@ -30,17 +30,42 @@
     <color name="main_bg_color">#4CAF50</color>
     <color name="half_transparent_color">#B2FFFFFF</color>
     <color name="input_screen_bg_color">#E8F5E9</color>
-    
-    <!-- Event Specific Colors -->
-    <color name="next_period_bg_color">#fce4ec</color>
-    <color name="next_period_front_color">#C62828</color>
-    <color name="next_ovulation_bg_color">#FFF8E1</color>
-    <color name="next_ovulation_front_color">#33691E</color>
-    <color name="fertile_days_bg_color">#E8F5E9</color>
-    <color name="fertile_days_front_color">#1976D2</color>
-    <color name="safe_days_bg_color">#F1F8E9</color>
-    <color name="safe_days_front_color">#388E3C</color>
-    
+
+    <!-- ============================================ -->
+    <!-- CYCLE EVENT COLORS — single source of truth  -->
+    <!-- ============================================ -->
+
+    <!-- Period: deep red -->
+    <color name="period_accent">#E53935</color>
+    <color name="period_bg">#FFEBEE</color>
+    <color name="period_on_filled">#FFFFFF</color>
+
+    <!-- Ovulation: soft purple -->
+    <color name="ovulation_accent">#7C4DFF</color>
+    <color name="ovulation_bg">#EDE7F6</color>
+    <color name="ovulation_on_filled">#FFFFFF</color>
+
+    <!-- Fertile: teal/green -->
+    <color name="fertile_accent">#00897B</color>
+    <color name="fertile_bg">#E0F2F1</color>
+
+    <!-- Safe: blue -->
+    <color name="safe_accent">#1A1A1A</color>
+    <color name="safe_bg">#E3F2FD</color>
+
+    <!-- Today highlight -->
+    <color name="today_accent">#006517</color>
+
+    <!-- Legacy aliases — point to new names so nothing breaks -->
+    <color name="next_period_bg_color">@color/period_bg</color>
+    <color name="next_period_front_color">@color/period_accent</color>
+    <color name="next_ovulation_bg_color">@color/ovulation_bg</color>
+    <color name="next_ovulation_front_color">@color/ovulation_accent</color>
+    <color name="fertile_days_bg_color">@color/fertile_bg</color>
+    <color name="fertile_days_front_color">@color/fertile_accent</color>
+    <color name="safe_days_bg_color">@color/safe_bg</color>
+    <color name="safe_days_front_color">@color/safe_accent</color>
+
     <!-- Theme Selection Colors -->
     <color name="theme10">#FF00AA</color>
     <color name="theme_7_bg">#FFE1F0</color>
@@ -59,7 +84,7 @@
     <color name="theme6">#81C1FA</color>
     <color name="theme_6_bg">#FFE1F0</color>
     <color name="theme7">#9FD3E8</color>
-    
+
     <color name="safe_days_cal_color">#FF9292</color>
     <color name="fertile_days_cal_color">#E2FF2A</color>
 </resources>

@@ -3,6 +3,7 @@ package com.srzone.ritu.Fragments
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.Rect
 import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kizitonwose.calendar.core.CalendarDay
@@ -123,11 +125,12 @@ class HomeFragment : Fragment() {
             override fun bind(container: DayViewContainer, data: CalendarDay) {
                 val date = data.date
                 container.textView.text = date.dayOfMonth.toString()
-                
-                container.textView.alpha = 1f
-                container.textView.setTypeface(null, Typeface.NORMAL)
-                container.textView.setBackgroundResource(0)
+
+// Reset first
+                container.textView.background = null
                 container.textView.backgroundTintList = null
+                container.textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_primary))
+                container.textView.setTypeface(null, Typeface.NORMAL)
                 container.dotView.visibility = View.GONE
 
                 if (data.position != DayPosition.MonthDate) {
@@ -135,77 +138,69 @@ class HomeFragment : Fragment() {
                     container.textView.setTextColor(Color.GRAY)
                     return
                 }
+                container.textView.alpha = 1f
 
-                val isSelected = date == selectedDate
-                val isToday = date == today
-                val isPeriod = periodDates.contains(date)
+                val isSelected  = date == selectedDate
+                val isToday     = date == today
+                val isPeriod    = periodDates.contains(date)
                 val isOvulation = ovulationDates.contains(date)
-                val isFertile = fertileDates.contains(date)
-                val isSafe = safeDates.contains(date)
+                val isFertile   = fertileDates.contains(date)
+                val isSafe      = safeDates.contains(date)
 
                 when {
                     isSelected -> {
-                        container.textView.setBackgroundResource(R.drawable.rounded_btn_bg)
+                        // Solid dark circle, white text
+                        container.textView.setBackgroundResource(R.drawable.cal_day_filled)
                         container.textView.backgroundTintList =
-                            ContextCompat.getColorStateList(requireContext(), R.color.theme9)
+                            ContextCompat.getColorStateList(requireContext(), R.color.today_accent)
                         container.textView.setTextColor(Color.WHITE)
                         container.textView.setTypeface(null, Typeface.BOLD)
-                        container.dotView.visibility = View.GONE
                     }
                     isPeriod -> {
-                        container.textView.setBackgroundResource(R.drawable.rounded_btn_bg)
+                        // Solid red fill — stands out strongest, appropriate for period
+                        container.textView.setBackgroundResource(R.drawable.cal_day_filled)
                         container.textView.backgroundTintList =
-                            ContextCompat.getColorStateList(requireContext(), R.color.next_period_front_color)
+                            ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.period_accent))
                         container.textView.setTextColor(Color.WHITE)
-                        container.textView.setTypeface(null, Typeface.NORMAL)
-                        container.dotView.visibility = View.GONE
                     }
                     isOvulation -> {
-                        container.textView.setBackgroundResource(R.drawable.rounded_btn_bg)
-                        // Soft purple pill for ovulation
+                        // Outlined purple ring, purple text
+                        container.textView.setBackgroundResource(R.drawable.cal_day_outlined)
                         container.textView.backgroundTintList =
-                            ColorStateList.valueOf(Color.parseColor("#EDE7F6"))
-                        container.textView.setTextColor(Color.parseColor("#512DA8"))
+                            ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.ovulation_accent))
+                        container.textView.setTextColor(
+                            ContextCompat.getColor(requireContext(), R.color.ovulation_accent))
                         container.textView.setTypeface(null, Typeface.BOLD)
+                        // Small dot below to mark ovulation peak
                         container.dotView.visibility = View.VISIBLE
-                        container.dotView.setBackgroundColor(Color.parseColor("#7F77DD"))
+                        container.dotView.setBackgroundColor(
+                            ContextCompat.getColor(requireContext(), R.color.ovulation_accent))
                     }
                     isFertile -> {
-                        container.textView.setBackgroundResource(R.drawable.rounded_btn_bg)
-                        // Light green pill — matches brand
+                        // Outlined teal ring, teal text
+                        container.textView.setBackgroundResource(R.drawable.cal_day_outlined)
                         container.textView.backgroundTintList =
-                            ContextCompat.getColorStateList(requireContext(), R.color.fertile_days_bg_color)
+                            ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.fertile_accent))
                         container.textView.setTextColor(
-                            ContextCompat.getColor(requireContext(), R.color.theme9))
-                        container.textView.setTypeface(null, Typeface.NORMAL)
-                        container.dotView.visibility = View.GONE
-                    }
-                    isSafe -> {
-                        container.textView.setBackgroundResource(R.drawable.rounded_btn_bg)
-                        container.textView.backgroundTintList =
-                            ContextCompat.getColorStateList(requireContext(), R.color.safe_days_bg_color)
-                        container.textView.setTextColor(
-                            ContextCompat.getColor(requireContext(), R.color.safe_days_front_color))
-                        container.textView.setTypeface(null, Typeface.NORMAL)
-                        container.dotView.visibility = View.GONE
+                            ContextCompat.getColor(requireContext(), R.color.fertile_accent))
                     }
                     isToday -> {
-                        container.textView.background = null
-                        container.textView.backgroundTintList = null
+                        // No background, just colored bold text + dot
                         container.textView.setTextColor(
-                            ContextCompat.getColor(requireContext(), R.color.theme9))
+                            ContextCompat.getColor(requireContext(), R.color.today_accent))
                         container.textView.setTypeface(null, Typeface.BOLD)
                         container.dotView.visibility = View.VISIBLE
                         container.dotView.setBackgroundColor(
-                            ContextCompat.getColor(requireContext(), R.color.theme9))
+                            ContextCompat.getColor(requireContext(), R.color.today_accent))
+                    }
+                    isSafe -> {
+                        // Safe Days are majority of days so do nothing here
+                        container.textView.setTextColor(
+                            ContextCompat.getColor(requireContext(), R.color.safe_accent))
                     }
                     else -> {
-                        container.textView.background = null
-                        container.textView.backgroundTintList = null
                         container.textView.setTextColor(
                             ContextCompat.getColor(requireContext(), R.color.text_primary))
-                        container.textView.setTypeface(null, Typeface.NORMAL)
-                        container.dotView.visibility = View.GONE
                     }
                 }
 
@@ -386,8 +381,18 @@ class HomeFragment : Fragment() {
             "0", R.color.safe_days_bg_color, R.color.safe_days_front_color))
 
         binding?.homeRecyclerView?.apply {
-            layoutManager = LinearLayoutManager(activity)
+            layoutManager = GridLayoutManager(activity, 2)
             adapter = HomeRecyclerAdapter(arrayList, requireActivity())
+            if (itemDecorationCount == 0) {  // ← add this guard
+                addItemDecoration(object : RecyclerView.ItemDecoration() {
+                override fun getItemOffsets(
+                    outRect: Rect, view: View,
+                    parent: RecyclerView, state: RecyclerView.State
+                ) {
+                    outRect.set(8, 8, 8, 8) // left, top, right, bottom in px
+                }
+            })
+            }
         }
     }
 
